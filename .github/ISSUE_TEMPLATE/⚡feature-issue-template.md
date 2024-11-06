@@ -1,7 +1,7 @@
 ---
 name: "⚡Feature issue template"
 about: 기능 추가/삭제/수정
-title: "[Feature/featureName] Title"
+title: "[feature/(frontend or backend)/(도메인명)/(기능)] Title"
 labels: ''
 assignees: hyojunahn111
 
