@@ -42,3 +42,6 @@ src/main/resources/application.yml
 
 ### securtiy ###
 src/main/java/com/senials/security
+
+### .env ###
+src/main/resources/.env
