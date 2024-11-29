@@ -26,7 +26,13 @@ public class HobbyReviewService {
         Hobby hobby = hobbyRepository.findById(hobbyNumber)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Hobby Number: " + hobbyNumber));
         List<HobbyReview> hobbyReviewList=hobbyReviewRepository.findByHobby(hobby);
-        List<HobbyReviewDTO> hobbyReviewDTOList=hobbyReviewList.stream().map(hobbyReview -> hobbyReviewMapper.toHobbyReviewDTO(hobbyReview)).toList();
+        List<HobbyReviewDTO> hobbyReviewDTOList=hobbyReviewList.stream().map(hobbyReview -> {
+            HobbyReviewDTO dto=hobbyReviewMapper.toHobbyReviewDTO(hobbyReview);
+            dto.setHobbyNumber(hobbyReview.getHobby().getHobbyNumber());
+            dto.setUserNumber(hobbyReview.getUser().getUserNumber());
+            dto.setUserName(hobbyReview.getUser().getUserName());
+            return dto;
+        }).toList();
         return hobbyReviewDTOList;
     }
 
