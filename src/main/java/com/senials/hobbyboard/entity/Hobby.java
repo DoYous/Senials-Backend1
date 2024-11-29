@@ -3,6 +3,7 @@ package com.senials.hobbyboard.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+//취미 테이블 entity
 @Entity
 @Table(name = "HOBBY")
 @Getter
