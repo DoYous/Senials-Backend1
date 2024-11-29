@@ -1,10 +1,8 @@
 package com.senials.hobbyboard.service;
 
-import com.senials.hobbyboard.dto.HobbyDTO;
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
-import com.senials.hobbyboard.entity.Hobby;
-import com.senials.hobbyboard.entity.HobbyReview;
-import com.senials.hobbyboard.mapper.HobbyMapper;
+import com.senials.entity.Hobby;
+import com.senials.entity.HobbyReview;
 import com.senials.hobbyboard.mapper.HobbyReviewMapper;
 import com.senials.hobbyboard.repository.HobbyRepository;
 import com.senials.hobbyboard.repository.HobbyReviewRepository;

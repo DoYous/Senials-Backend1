@@ -7,16 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-<<<<<<<< HEAD:src/main/java/com/senials/config/SpringConfiguration.java
 @EnableJpaRepositories("com.senials.hobbyboard.repository")
 @ComponentScan(basePackages = {"com.senials"})
-@EntityScan(basePackages = {"com.senials.hobbyboard.entity"})
-public class SpringConfiguration {
-========
 @EntityScan(basePackages = {"com.senials.entity"})
-@EnableJpaRepositories(basePackages = {"com.senials.partyboards.repository"})
-@ComponentScan(basePackages = {"com.senials"})
-public class SpringConfig {
->>>>>>>> origin/example:src/main/java/com/senials/config/SpringConfig.java
+public class SpringConfiguration {
 
 }
