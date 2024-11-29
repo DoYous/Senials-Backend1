@@ -1,13 +1,13 @@
 ---
-name: "\U0001F6A8Bug Issue Template"
-about: 버그 발생 시 활용
-title: "[bugfix/backend-number/BUG] Title"
-labels: bug
+name: "⚡General Issue Template"
+about: 기능 추가/삭제/수정 등 일반 이슈
+title: "[feature/backend-NUMBER/DOMAIN/DETAIL] TITLE"
+labels: "⚡feature"
 assignees: ''
 
 ---
 
-## 🚨 버그 설명
+## 🛠️ 기능 설명
 - 추가하려는 기능에 대해 간결하게 설명해주세요
 
 ## 📝 작업 사항
