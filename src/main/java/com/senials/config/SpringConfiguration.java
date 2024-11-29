@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 @EnableJpaRepositories("com.senials.hobbyboard.repository")
 @ComponentScan(basePackages = {"com.senials"})
-public class ContextConfiguration {
+@EntityScan(basePackages = {"com.senials.hobbyboard.entity"})
+public class SpringConfiguration {
+
 }

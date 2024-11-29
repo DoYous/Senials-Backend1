@@ -1,12 +1,14 @@
 package com.senials.hobbyboard.controller;
 
 import com.senials.common.ResponseMessage;
+import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.hobbyboard.dto.HobbyDTO;
 import com.senials.hobbyboard.service.HobbyService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,17 +22,19 @@ import java.util.Map;
 public class HobbyController {
 
     private HobbyService hobbyService;
+    private final GlobalHttpHeadersConfig globalHttpHeadersConfig;
 
-    public HobbyController(HobbyService hobbyService){
+    public HobbyController(HobbyService hobbyService, GlobalHttpHeadersConfig globalHttpHeadersConfig){
 
         this.hobbyService=hobbyService;
+        this.globalHttpHeadersConfig = globalHttpHeadersConfig;
     }
 
+    //취미 전체 조회
     @GetMapping("/hobby-board")
-    public ResponseEntity<ResponseMessage> findAllHobby(){
+    public ResponseEntity<ResponseMessage> findHobbyAll(){
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
 
         List<HobbyDTO> hobbyDTOList = hobbyService.findAll();
 
@@ -39,4 +43,19 @@ public class HobbyController {
 
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
     }
+
+    //취미 상세 조회
+    @GetMapping("/hobby-detail/{hobbyNumber}")
+    public ResponseEntity<ResponseMessage> findHobbyDetail(@PathVariable("hobbyNumber")int hobbyNumber){
+
+        HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
+
+        HobbyDTO hobbyDTO = hobbyService.findById(hobbyNumber);
+
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("hobby", hobbyDTO);
+
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
+    }
+
 }
