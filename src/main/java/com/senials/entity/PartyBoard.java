@@ -52,13 +52,16 @@ public class PartyBoard {
     private int partyBoardReportCnt = 0;
 
     @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PartyBoardImage> images = new ArrayList<>();
+    private List<PartyBoardImage> images;
 
     @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PartyMember> members = new ArrayList<>();
+    private List<PartyMember> members;
 
     @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Meet> meets = new ArrayList<>();
+    private List<Meet> meets;
+
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartyReview> reviews;
 
     /* AllArgsConstructor */
     @Builder

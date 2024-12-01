@@ -61,6 +61,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PartyMember> partyMemberShip;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartyReview> partyReviews;
+
     /* AllArgsConstructor */
     public User(int userNumber, String userPwd, String userName, LocalDate userBirth, String userEmail, int userGender, int userReportCnt, int userStatus, String userNickname, String userDetail, String userProfileImg, LocalDate userSignupDate, String userUuid, List<PartyBoard> partyBoards) {
         this.userNumber = userNumber;

@@ -5,6 +5,7 @@ import com.senials.entity.User;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
+import com.senials.partyboards.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -30,12 +31,20 @@ public class PartyBoardController {
     private final ResourceLoader resourceLoader;
     private final PartyBoardService partyBoardService;
     private final MeetService meetService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public PartyBoardController(ResourceLoader resourceLoader, PartyBoardService partyBoardService, MeetService meetService) {
+    public PartyBoardController(
+            ResourceLoader resourceLoader
+            , PartyBoardService partyBoardService
+            , MeetService meetService
+            , ReviewService reviewService
+    )
+    {
         this.resourceLoader = resourceLoader;
         this.partyBoardService = partyBoardService;
         this.meetService = meetService;
+        this.reviewService = reviewService;
     }
 
     // 모임 검색
@@ -241,5 +250,20 @@ public class PartyBoardController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 참여멤버 조회 성공", responseMap));
+    }
+
+    /* 모임 후기 전체 조회*/
+    @GetMapping("/partyboards/{partyBoardNumber}/partyreviews")
+    public ResponseEntity<ResponseMessage> getPartyReviewsByPartyBoardNumber(
+            @PathVariable Integer partyBoardNumber
+    ) {
+        List<PartyReviewDTO> partyReviewDTOList = reviewService.getPartyReviewsByPartyBoardNumber(partyBoardNumber);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("partyReviews", partyReviewDTOList);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 전체 조회 성공", responseMap));
     }
 }
