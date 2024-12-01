@@ -62,4 +62,17 @@ public class HobbyController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
     }
 
+    @GetMapping("/hobby-board/{categoryNumber}")
+    public ResponseEntity<ResponseMessage> findHobbyByCategory(@PathVariable("categoryNumber")int categoryNumber){
+
+        HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
+
+        List<HobbyDTO> hobbyDTOList = hobbyService.findByCategory(categoryNumber);
+
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("hobby", hobbyDTOList);
+
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
+    }
+
 }

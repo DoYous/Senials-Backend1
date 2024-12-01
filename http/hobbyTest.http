@@ -1,5 +1,9 @@
 ###취미 게시판 전체 보기
 http://localhost:8081/hobby-board
 
+###취미 게시판 카테고리별 전체보기
+http://localhost:8081/hobby-board/1
+
 ###취미 게시판 상세 보기, 관련된 후기 가져오기
 http://localhost:8081/hobby-detail/1
+
