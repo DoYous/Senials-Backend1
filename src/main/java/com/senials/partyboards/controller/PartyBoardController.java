@@ -196,4 +196,20 @@ public class PartyBoardController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 추가 완료", null));
     }
+
+
+    /* 모임 일정 수정 */
+    /* meetNumber 만으로 고유하기 때문에 partyBoardNumber는 필요없음 */
+    @PutMapping("/partyboards/{partyBoardNumber}/meets/{meetNumber}")
+    public ResponseEntity<ResponseMessage> modifyMeet (
+            @PathVariable Integer meetNumber
+            , @RequestBody MeetDTO meetDTO
+    ) {
+        meetService.modifyMeet(meetNumber, meetDTO);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 수정 완료", null));
+    }
 }

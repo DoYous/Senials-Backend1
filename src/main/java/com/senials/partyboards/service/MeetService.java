@@ -30,6 +30,8 @@ public class MeetService {
         this.meetRepository = meetRepository;
     }
 
+
+    /* 모임 내 일정 전체 조회 */
     public List<MeetDTO> getMeetsByPartyBoardNumber(int partyBoardNumber) {
 
         PartyBoard partyBoard = partyBoardRepository.findById(partyBoardNumber)
@@ -43,6 +45,7 @@ public class MeetService {
     }
 
 
+    /* 모임 일정 추가 */
     @Transactional
     public void registerMeet(int partyBoardNumber, MeetDTO meetDTO) {
 
@@ -55,6 +58,20 @@ public class MeetService {
         meet.initializePartyBoard(partyBoard);
 
         meetRepository.save(meet);
+    }
+
+
+    /* 모임 일정 수정 */
+    @Transactional
+    public void modifyMeet(int meetNumber, MeetDTO meetDTO)
+    {
+        /* 기존 일정 엔티티 로드 */
+        Meet meet = meetRepository.findById(meetNumber)
+                .orElseThrow(IllegalArgumentException::new);
+
+
+        /* 컬럼 변경 별도 검증 없이 모두 갱신*/
+        meet.updateAll(meetDTO);
     }
 
 }
