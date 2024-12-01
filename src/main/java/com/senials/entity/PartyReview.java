@@ -1,10 +1,7 @@
 package com.senials.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,13 +35,27 @@ public class PartyReview {
     @Column(name = "party_review_write_date", nullable = false)
     private LocalDateTime partyReviewWriteDate; // 작성 날짜
 
+
     /* AllArgsConstructor */
+    @Builder
     public PartyReview(int partyReviewNumber, User user, PartyBoard partyBoard, int partyReviewRate, String partyReviewDetail, LocalDateTime partyReviewWriteDate) {
         this.partyReviewNumber = partyReviewNumber;
         this.user = user;
         this.partyBoard = partyBoard;
         this.partyReviewRate = partyReviewRate;
         this.partyReviewDetail = partyReviewDetail;
+        this.partyReviewWriteDate = partyReviewWriteDate;
+    }
+
+
+    /* 모임 후기 작성 시 작성자, 모임, 작성일자 세팅 */
+    public void initializeUser(User user) {
+        this.user = user;
+    }
+    public void initializePartyBoard(PartyBoard partyBoard) {
+        this.partyBoard = partyBoard;
+    }
+    public void initializePartyReviewWriteDate(LocalDateTime partyReviewWriteDate) {
         this.partyReviewWriteDate = partyReviewWriteDate;
     }
 }

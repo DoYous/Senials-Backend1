@@ -1,11 +1,10 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.entity.User;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
-import com.senials.partyboards.service.ReviewService;
+import com.senials.partyboards.service.PartyReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -14,12 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,20 +25,20 @@ public class PartyBoardController {
     private final ResourceLoader resourceLoader;
     private final PartyBoardService partyBoardService;
     private final MeetService meetService;
-    private final ReviewService reviewService;
+    private final PartyReviewService partyReviewService;
 
     @Autowired
     public PartyBoardController(
             ResourceLoader resourceLoader
             , PartyBoardService partyBoardService
             , MeetService meetService
-            , ReviewService reviewService
+            , PartyReviewService partyReviewService
     )
     {
         this.resourceLoader = resourceLoader;
         this.partyBoardService = partyBoardService;
         this.meetService = meetService;
-        this.reviewService = reviewService;
+        this.partyReviewService = partyReviewService;
     }
 
     // 모임 검색
@@ -257,7 +251,7 @@ public class PartyBoardController {
     public ResponseEntity<ResponseMessage> getPartyReviewsByPartyBoardNumber(
             @PathVariable Integer partyBoardNumber
     ) {
-        List<PartyReviewDTO> partyReviewDTOList = reviewService.getPartyReviewsByPartyBoardNumber(partyBoardNumber);
+        List<PartyReviewDTO> partyReviewDTOList = partyReviewService.getPartyReviewsByPartyBoardNumber(partyBoardNumber);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("partyReviews", partyReviewDTOList);
@@ -265,5 +259,21 @@ public class PartyBoardController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 전체 조회 성공", responseMap));
+    }
+
+    /* 모임 후기 작성 */
+    @PostMapping("/partyboards/{partyBoardNumber}/partyreviews")
+    public ResponseEntity<ResponseMessage> registerPartyReview (
+            @PathVariable Integer partyBoardNumber
+            , @RequestBody PartyReviewDTO partyReviewDTO
+    ) {
+        // 유저 번호 임의 지정
+        int userNumber = 4;
+
+        partyReviewService.registerPartyReview(userNumber, partyBoardNumber, partyReviewDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 작성 성공", null));
     }
 }

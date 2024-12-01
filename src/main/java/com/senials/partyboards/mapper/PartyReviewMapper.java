@@ -10,4 +10,7 @@ public interface PartyReviewMapper {
 
     /* PartyReview -> PartyReviewDTO */
     PartyReviewDTO toPartyReviewDTO(PartyReview partyReview);
+
+    /* PartyReviewDTO -> PartyReview */
+    PartyReview toPartyReview(PartyReviewDTO partyReviewDTO);
 }
