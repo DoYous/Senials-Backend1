@@ -36,7 +36,19 @@ Content-Type: application/json
 GET http://localhost:8080/partyboards/1/meets
 
 ### 모임 일정 추가
-POST /partyboards/{partyBoardNumber}/meets
+POST http://localhost:8080/partyboards/2/meets
+Content-Type: application/json;charset=UTF-8
+
+{
+    "partyBoardNumber": 2,
+    "meetStartDate": "2024-12-30",
+    "meetEndDate": "2025-01-10",
+    "meetStartTime": "12:00",
+    "meetFinishTime": "14:00",
+    "meetEntryFee": 5000,
+    "meetLocation": "testLocation",
+    "meetMaxMember": 123
+}
 
 ### 모임 일정 수정
 PUT /partyboards/{partyBoardNumber}

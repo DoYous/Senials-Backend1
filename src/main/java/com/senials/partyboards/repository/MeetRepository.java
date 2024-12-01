@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface MeetRepository extends JpaRepository<Meet, Integer> {
 
+    /* 모임 내 일정 전체 조회 (내림차순) */
     List<Meet> findAllByPartyBoardOrderByMeetNumberDesc(PartyBoard partyBoard);
 }

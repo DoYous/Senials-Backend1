@@ -10,4 +10,7 @@ public interface MeetMapper {
 
     // Meet -> MeetDTO
     MeetDTO toMeetDTO(Meet meet);
+
+    /* MeetDTO -> Meet */
+    Meet toMeet(MeetDTO meetDTO);
 }

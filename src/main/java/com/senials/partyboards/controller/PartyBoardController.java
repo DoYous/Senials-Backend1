@@ -182,4 +182,18 @@ public class PartyBoardController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 전체 조회 완료", responseMap));
     }
+
+    /* 모임 일정 추가 */
+    @PostMapping("/partyboards/{partyBoardNumber}/meets")
+    public ResponseEntity<ResponseMessage> registerMeet(
+            @PathVariable Integer partyBoardNumber,
+            @RequestBody MeetDTO meetDTO
+    ) {
+        meetService.registerMeet(partyBoardNumber, meetDTO);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 추가 완료", null));
+    }
 }

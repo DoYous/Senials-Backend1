@@ -1,6 +1,7 @@
 package com.senials.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -48,4 +49,24 @@ public class Meet {
 
     @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MeetMember> meetMembers;
+
+    /* AllArgsConstructor */
+    @Builder
+    public Meet(int meetNumber, PartyBoard partyBoard, LocalDate meetStartDate, LocalDate meetEndDate, LocalTime meetStartTime, LocalTime meetFinishTime, int meetEntryFee, String meetLocation, int meetMaxMember, List<MeetMember> meetMembers) {
+        this.meetNumber = meetNumber;
+        this.partyBoard = partyBoard;
+        this.meetStartDate = meetStartDate;
+        this.meetEndDate = meetEndDate;
+        this.meetStartTime = meetStartTime;
+        this.meetFinishTime = meetFinishTime;
+        this.meetEntryFee = meetEntryFee;
+        this.meetLocation = meetLocation;
+        this.meetMaxMember = meetMaxMember;
+        this.meetMembers = meetMembers;
+    }
+
+    /* Meet 생성 시 partyBoard 연결 용 */
+    public void initializePartyBoard(PartyBoard partyBoard) {
+        this.partyBoard = partyBoard;
+    }
 }
