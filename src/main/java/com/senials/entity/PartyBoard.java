@@ -54,6 +54,9 @@ public class PartyBoard {
     @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PartyBoardImage> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartyMember> members = new ArrayList<>();
+
     /* AllArgsConstructor */
     @Builder
     public PartyBoard(int partyBoardNumber, User user, Hobby hobby, String partyBoardName, String partyBoardDetail, LocalDate partyBoardOpenDate, int partyBoardStatus, int partyBoardViewCnt, int partyBoardLikeCnt, int partyBoardReportCnt) {

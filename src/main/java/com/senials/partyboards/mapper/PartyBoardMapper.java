@@ -8,7 +8,7 @@ import com.senials.partyboards.dto.PartyBoardImageDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PartyBoardMapper {
 
     // PartyBoard -> PartyBoardDTO

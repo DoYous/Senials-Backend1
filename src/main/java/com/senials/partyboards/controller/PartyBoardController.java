@@ -1,16 +1,11 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.partyboards.dto.PartyBoardDTO;
-import com.senials.partyboards.dto.PartyBoardDTOForDetail;
-import com.senials.partyboards.dto.PartyBoardDTOForModify;
-import com.senials.partyboards.dto.PartyBoardDTOForWrite;
-import com.senials.partyboards.repository.PartyBoardRepository;
+import com.senials.partyboards.dto.*;
+import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +28,13 @@ public class PartyBoardController {
 
     private final ResourceLoader resourceLoader;
     private final PartyBoardService partyBoardService;
+    private final MeetService meetService;
 
     @Autowired
-    public PartyBoardController(ResourceLoader resourceLoader, PartyBoardService partyBoardService) {
+    public PartyBoardController(ResourceLoader resourceLoader, PartyBoardService partyBoardService, MeetService meetService) {
         this.resourceLoader = resourceLoader;
         this.partyBoardService = partyBoardService;
+        this.meetService = meetService;
     }
 
     // 모임 검색
@@ -167,5 +164,22 @@ public class PartyBoardController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 삭제 성공", null));
+    }
+
+    /* 모임 내 일정 전체 조회 */
+    @GetMapping("/partyboards/{partyBoardNumber}/meets")
+    public ResponseEntity<ResponseMessage> getMeetsByPartyBoardNumber(
+            @PathVariable Integer partyBoardNumber
+    ) {
+
+        List<MeetDTO> meetDTOList = meetService.getMeetsByPartyBoardNumber(partyBoardNumber);
+        
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("meets", meetDTOList);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 전체 조회 완료", responseMap));
     }
 }
