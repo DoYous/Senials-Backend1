@@ -112,7 +112,8 @@ public class PartyBoardController {
     /* 모임 글 작성 */
     @PostMapping("/partyboards")
     public ResponseEntity<ResponseMessage> registerPartyBoard(
-            @ModelAttribute PartyBoardDTOForWrite newPartyBoardDTO) {
+            @ModelAttribute PartyBoardDTOForWrite newPartyBoardDTO
+    ) {
 
         // 글 작성 후 자동 생성된 글 번호
         int registeredPartyBoardNumber = partyBoardService.registerPartyBoard(newPartyBoardDTO);
@@ -130,18 +131,20 @@ public class PartyBoardController {
         // ResponseHeader 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        // ResponseBody 삽입
-        Map<String, Object> responseMap = new HashMap<>();
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 작성 성공", responseMap));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 작성 성공", null));
     }
 
     /* 모임 글 수정 */
-    @PutMapping("/partyboards")
+    @PutMapping("/partyboards/{partyBoardNumber}")
     public ResponseEntity<ResponseMessage> modifyPartyBoard(
-            @ModelAttribute PartyBoardDTOForModify partyBoardDTO) {
+            @PathVariable int partyBoardNumber,
+            @ModelAttribute PartyBoardDTOForModify partyBoardDTO
+    ) {
+        // PathVariable의 partyBoardNumber를 DTO에 삽입
+        partyBoardDTO.setPartyBoardNumber(partyBoardNumber);
 
-        // form 테스트할 때 공백이 리스트에 삽입되는 것 방지
-        // partyBoardDTO.getRemovedFileNumbers().removeAll(partyBoardDTO.getRemovedFileNumbers());
+        // form 태그로 테스트할 때 공백이 리스트에 삽입되는 것 방지
+        partyBoardDTO.getRemovedFileNumbers().removeAll(partyBoardDTO.getRemovedFileNumbers());
         partyBoardDTO.getAddedFiles().removeAll(partyBoardDTO.getAddedFiles());
 
         partyBoardService.modifyPartyBoard(partyBoardDTO);
@@ -149,8 +152,20 @@ public class PartyBoardController {
         // ResponseHeader 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        // ResponseBody 삽입
-        Map<String, Object> responseMap = new HashMap<>();
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 수정 성공", responseMap));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 수정 성공", null));
+    }
+
+    /* 모임 글 삭제 */
+    @DeleteMapping("/partyboards/{partyBoardNumber}")
+    public ResponseEntity<ResponseMessage> removePartyBoard(
+            @PathVariable int partyBoardNumber
+    ) {
+
+        partyBoardService.removePartyBoard(partyBoardNumber);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 삭제 성공", null));
     }
 }

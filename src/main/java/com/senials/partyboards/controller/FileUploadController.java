@@ -8,8 +8,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +27,7 @@ public class FileUploadController {
     }
 
     // 모임 섬네일(대표) 이미지 저장
-    @PostMapping("/partyboardimages-temp")
+    @PostMapping("/partyboardimages")
     public ResponseEntity<ResponseMessage> uploadPartyBoardThumbnails(
             @RequestParam List<MultipartFile> multiFiles
     ) throws IOException {
@@ -92,9 +90,9 @@ public class FileUploadController {
     }
 
     // 모임 섬네일(대표) 이미지 추가
-    @PutMapping("/partyboardimages-temp")
+    @PutMapping("/partyboardimages/{partyBoardNumber}")
     public ResponseEntity<ResponseMessage> addPartyBoardThumbnails(
-            @RequestParam int partyBoardNumber,
+            @PathVariable int partyBoardNumber,
             @RequestParam List<MultipartFile> addedFiles
     ) throws IOException {
 

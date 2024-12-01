@@ -63,6 +63,7 @@ public class PartyBoardService {
         return partyBoardDTO;
     }
 
+
     /* 모임 글 작성 */
     @Transactional
     public int registerPartyBoard(PartyBoardDTOForWrite newPartyBoardDTO) {
@@ -107,6 +108,7 @@ public class PartyBoardService {
         PartyBoard registeredPartyBoard = partyBoardRepository.save(newPartyBoard);
         return registeredPartyBoard.getPartyBoardNumber();
     }
+
 
     /* 모임 글 수정 */
     @Transactional
@@ -183,5 +185,13 @@ public class PartyBoardService {
                 partyBoardImages.add(partyBoardImage);
             }
         }
+    }
+
+
+    /* 모임 글 삭제 */
+    @Transactional
+    public void removePartyBoard(int partyBoardNumber) {
+
+        partyBoardRepository.deleteById(partyBoardNumber);
     }
 }
