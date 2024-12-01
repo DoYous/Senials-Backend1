@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -30,6 +31,8 @@ public class PartyBoardDTOForDetail {
     private int partyBoardViewCnt;
 
     private int partyBoardLikeCnt;
+
+    private List<PartyBoardImageDTO> images;
 
     // 신고 수 안보냄
     // private int partyBoardReportCnt;

@@ -12,23 +12,15 @@
     <h3>multi file upload</h3>
     <form action="/partyboardimages-temp" method="post" enctype="multipart/form-data">
         파일 : <input type="file" name="multiFiles" multiple><br>
+        <input type="submit" value="File Upload">
 
-        유저번호
-        <input type="text" name="userNumber" value="1"/><br>
-        취미번호
-        <input type="text" name="hobbyNumber" value="2"><br>
-        이름
-        <input type="text" name="partyBoardName" value="testname"><br>
-        내용
-        <input type="text" name="partyBoardDetail" value="testDetail"><br>
+    </form>
+    <br><br><br>
 
-        임시번호
-        <input type="text" name="tempNumber"><br>
-        파일명
-        <input type="text" name="savedFiles"><input type="text" name="savedFiles">
-
-
-
+    <form action="#" th:action="@{/partyboardimages-temp}" method="#" th:method="put" enctype="multipart/form-data">
+        파일 : <input type="file" name="addedFiles" multiple><br>
+        파티번호
+        <input type="text" name="partyBoardNumber" value="17"><br>
         <input type="submit" value="File Upload">
 
     </form>

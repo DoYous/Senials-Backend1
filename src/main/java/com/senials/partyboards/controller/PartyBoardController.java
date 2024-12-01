@@ -3,6 +3,7 @@ package com.senials.partyboards.controller;
 import com.senials.common.ResponseMessage;
 import com.senials.partyboards.dto.PartyBoardDTO;
 import com.senials.partyboards.dto.PartyBoardDTOForDetail;
+import com.senials.partyboards.dto.PartyBoardDTOForModify;
 import com.senials.partyboards.dto.PartyBoardDTOForWrite;
 import com.senials.partyboards.repository.PartyBoardRepository;
 import com.senials.partyboards.service.PartyBoardService;
@@ -110,10 +111,12 @@ public class PartyBoardController {
 
     /* 모임 글 작성 */
     @PostMapping("/partyboards")
-    public ResponseEntity<ResponseMessage> registerPartyBoard(@ModelAttribute PartyBoardDTOForWrite newPartyBoardDTO) {
+    public ResponseEntity<ResponseMessage> registerPartyBoard(
+            @ModelAttribute PartyBoardDTOForWrite newPartyBoardDTO) {
 
         // 글 작성 후 자동 생성된 글 번호
         int registeredPartyBoardNumber = partyBoardService.registerPartyBoard(newPartyBoardDTO);
+
 
         /* 이미지 저장 임시 디렉터리 명 변경 */
         String tempDirStr = "src/main/resources/static/img/party_board/" + newPartyBoardDTO.getTempNumber();
@@ -124,12 +127,30 @@ public class PartyBoardController {
         tempDir.renameTo(newFileDir);
 
 
-
         // ResponseHeader 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         // ResponseBody 삽입
         Map<String, Object> responseMap = new HashMap<>();
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 작성 성공", responseMap));
+    }
+
+    /* 모임 글 수정 */
+    @PutMapping("/partyboards")
+    public ResponseEntity<ResponseMessage> modifyPartyBoard(
+            @ModelAttribute PartyBoardDTOForModify partyBoardDTO) {
+
+        // form 테스트할 때 공백이 리스트에 삽입되는 것 방지
+        // partyBoardDTO.getRemovedFileNumbers().removeAll(partyBoardDTO.getRemovedFileNumbers());
+        partyBoardDTO.getAddedFiles().removeAll(partyBoardDTO.getAddedFiles());
+
+        partyBoardService.modifyPartyBoard(partyBoardDTO);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        // ResponseBody 삽입
+        Map<String, Object> responseMap = new HashMap<>();
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 수정 성공", responseMap));
     }
 }
