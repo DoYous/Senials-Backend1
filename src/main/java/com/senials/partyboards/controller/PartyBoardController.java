@@ -1,6 +1,7 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
+import com.senials.entity.User;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
@@ -224,5 +225,21 @@ public class PartyBoardController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 삭제 완료", null));
+    }
+
+    /* 모임 일정 참여멤버 조회 */
+    @GetMapping("/partyboards/{partyBoardNumber}/meets/{meetNumber}/meetmembers")
+    public ResponseEntity<ResponseMessage> getMeetMembersByMeetNumber(
+            @PathVariable Integer meetNumber
+    ) {
+        List<UserDTOForPublic> meetMemberList = meetService.getMeetMembersByMeetNumber(meetNumber);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("meetMembers", meetMemberList);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 참여멤버 조회 성공", responseMap));
     }
 }

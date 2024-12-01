@@ -1,10 +1,13 @@
 package com.senials.partyboards.service;
 
-import com.senials.entity.Meet;
-import com.senials.entity.PartyBoard;
+import com.senials.entity.*;
 import com.senials.partyboards.dto.MeetDTO;
+import com.senials.partyboards.dto.UserDTOForPublic;
 import com.senials.partyboards.mapper.MeetMapper;
 import com.senials.partyboards.mapper.MeetMapperImpl;
+import com.senials.partyboards.mapper.UserMapper;
+import com.senials.partyboards.mapper.UserMapperImpl;
+import com.senials.partyboards.repository.MeetMemberRepository;
 import com.senials.partyboards.repository.MeetRepository;
 import com.senials.partyboards.repository.PartyBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +20,29 @@ import java.util.List;
 @Service
 public class MeetService {
 
+    private final UserMapper userMapper;
+
     private final MeetMapper meetMapper;
 
     private final PartyBoardRepository partyBoardRepository;
 
     private final MeetRepository meetRepository;
 
+    private final MeetMemberRepository meetMemberRepository;
+
     @Autowired
-    public MeetService(MeetMapperImpl meetMapperImpl, PartyBoardRepository partyBoardRepository, MeetRepository meetRepository) {
+    public MeetService(
+            UserMapperImpl userMapperImpl
+            , MeetMapperImpl meetMapperImpl
+            , PartyBoardRepository partyBoardRepository
+            , MeetRepository meetRepository
+            , MeetMemberRepository meetMemberRepository
+    ) {
+        this.userMapper = userMapperImpl;
         this.meetMapper = meetMapperImpl;
         this.partyBoardRepository = partyBoardRepository;
         this.meetRepository = meetRepository;
+        this.meetMemberRepository = meetMemberRepository;
     }
 
 
@@ -80,6 +95,28 @@ public class MeetService {
 
         meetRepository.deleteById(meetNumber);
 
+    }
+
+    /* 모임 일정 참여멤버 조회 */
+    public List<UserDTOForPublic> getMeetMembersByMeetNumber(int meetNumber) {
+
+        Meet meet = meetRepository.findById(meetNumber)
+                        .orElseThrow(IllegalArgumentException::new);
+
+        /* 일정 참여 멤버 리스트 도출 */
+        List<MeetMember> meetMemberList = meetMemberRepository.findAllByMeet(meet);
+
+        /* 멤버 리스트 -> 유저 정보 도출 */
+        List<User> userList = meetMemberList.stream()
+                .map(meetMember -> meetMember.getPartyMember().getUser())
+                .toList();
+
+        /* DTO로 변환 */
+        List<UserDTOForPublic> userDTOForPublicList = userList.stream()
+                .map(userMapper::toUserDTOForPublic)
+                .toList();
+
+        return userDTOForPublicList;
     }
 
 }

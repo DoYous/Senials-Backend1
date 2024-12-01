@@ -68,7 +68,7 @@ Content-Type: application/json;charset=UTF-8
 DELETE http://localhost:8080/partyboards/2/meets/6
 
 ### 모임 일정 참여멤버 조회
-GET /partyboards/{partyBoardNumber}
+GET http://localhost:8080/partyboards/1/meets/1/meetmembers
 
 ### 모임 후기 전체 조회
 GET /partyboards/{partyBoardNumber}/partyreviews
