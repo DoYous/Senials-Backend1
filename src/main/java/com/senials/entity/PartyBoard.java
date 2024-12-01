@@ -1,11 +1,14 @@
 package com.senials.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -17,13 +20,13 @@ public class PartyBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "party_board_number", nullable = false)
-    private int partyBoardNumber; // auto
+    private int partyBoardNumber; // auto-increment
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_number", referencedColumnName = "user_number", nullable = false)
     private User user; // 외래키 user_number -> User 엔티티와의 관계
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hobby_number", referencedColumnName = "hobby_number", nullable = false)
     private Hobby hobby; // 외래키 hobby_number -> Hobby 엔티티와의 관계
 
@@ -33,7 +36,6 @@ public class PartyBoard {
     @Column(name = "party_board_detail", length = 5000)
     private String partyBoardDetail;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "party_board_open_date", nullable = false)
     private LocalDate partyBoardOpenDate; // now()
 
@@ -49,8 +51,11 @@ public class PartyBoard {
     @Column(name = "party_board_report_cnt", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int partyBoardReportCnt = 0;
 
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartyBoardImage> images = new ArrayList<>();
 
     /* AllArgsConstructor */
+    @Builder
     public PartyBoard(int partyBoardNumber, User user, Hobby hobby, String partyBoardName, String partyBoardDetail, LocalDate partyBoardOpenDate, int partyBoardStatus, int partyBoardViewCnt, int partyBoardLikeCnt, int partyBoardReportCnt) {
         this.partyBoardNumber = partyBoardNumber;
         this.user = user;
@@ -62,5 +67,10 @@ public class PartyBoard {
         this.partyBoardViewCnt = partyBoardViewCnt;
         this.partyBoardLikeCnt = partyBoardLikeCnt;
         this.partyBoardReportCnt = partyBoardReportCnt;
+    }
+
+    /* 글 작성 시 대표 이미지 설정 */
+    public void initializeImages(List<PartyBoardImage> images) {
+        this.images = images;
     }
 }

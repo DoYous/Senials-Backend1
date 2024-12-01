@@ -11,9 +11,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class PartyBoardDTO {
+public class PartyBoardDTOForDetail {
 
-    private Integer partyBoardNumber; // auto
+    private int partyBoardNumber; // auto
 
     private int userNumber;
 
@@ -25,16 +25,17 @@ public class PartyBoardDTO {
 
     private LocalDate partyBoardOpenDate; // now()
 
-    private int partyBoardStatus = 0; // 0-모집중, 1-모집완료
+    private int partyBoardStatus; // 0-모집중, 1-모집완료
 
-    private int partyBoardViewCnt = 0;
+    private int partyBoardViewCnt;
 
-    private int partyBoardLikeCnt = 0;
+    private int partyBoardLikeCnt;
 
-    private int partyBoardReportCnt = 0;
+    // 신고 수 안보냄
+    // private int partyBoardReportCnt;
 
     /* AllArgsConstructor */
-    public PartyBoardDTO(int partyBoardNumber, int userNumber, int hobbyNumber, String partyBoardName, String partyBoardDetail, LocalDate partyBoardOpenDate, int partyBoardStatus, int partyBoardViewCnt, int partyBoardLikeCnt, int partyBoardReportCnt) {
+    public PartyBoardDTOForDetail(int partyBoardNumber, int userNumber, int hobbyNumber, String partyBoardName, String partyBoardDetail, LocalDate partyBoardOpenDate, int partyBoardStatus, int partyBoardViewCnt, int partyBoardLikeCnt) {
         this.partyBoardNumber = partyBoardNumber;
         this.userNumber = userNumber;
         this.hobbyNumber = hobbyNumber;
@@ -44,6 +45,5 @@ public class PartyBoardDTO {
         this.partyBoardStatus = partyBoardStatus;
         this.partyBoardViewCnt = partyBoardViewCnt;
         this.partyBoardLikeCnt = partyBoardLikeCnt;
-        this.partyBoardReportCnt = partyBoardReportCnt;
     }
 }

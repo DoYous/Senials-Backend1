@@ -1,0 +1,58 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### 모임 검색
+GET http://localhost:8080/partyboards/search
+
+###
+GET http://localhost:8080/partyboards/search?cursor=3&isAscending=1
+
+###
+GET http://localhost:8080/partyboards/search?cursor=7&isAscending=1&sortMethod=mostLiked
+
+###
+GET http://localhost:8080/partyboards/search?cursor=3&isAscending=1
+
+
+### 모임 상세 조회
+GET http://localhost:8080/partyboards/test
+
+### 모임 글 작성
+POST http://localhost:8080/partyboards
+
+### 모임 글 수정
+PUT http://localhost:8080/partyboards/1
+
+### 모임 글 삭제
+DELETE http://localhost:8080/partyboards/1
+
+### 모임 내 일정 전체 조회
+GET http://localhost:8080/partyboards/1/meets
+
+### 모임 일정 추가
+POST /partyboards/{partyBoardNumber}/meets
+
+### 모임 일정 수정
+PUT /partyboards/{partyBoardNumber}
+
+### 모임 일정 삭제
+DELETE /partyboards/{partyBoardNumber}/meets/{meetNumber}
+
+### 모임 일정 참여멤버 조회
+GET /partyboards/{partyBoardNumber}
+
+### 모임 후기 전체 조회
+GET /partyboards/{partyBoardNumber}/partyreviews
+
+### 모임 후기 수정
+PUT /partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}
+
+### 모임 후기 삭제
+DELETE /partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}
+
+### 모임 멤버 전체 조회
+GET /partyboards/{partyBoardNumber}/partymembers
+
+### 모임 탈퇴
+DELETE /partyboards/{partyBoardNumber}/partymembers/{partyMemberNumber}
