@@ -36,4 +36,9 @@ public class HobbyReviewService {
         return hobbyReviewDTOList;
     }
 
+    public HobbyReviewDTO saveHobbyReview(HobbyReview hobbyReview){
+       HobbyReviewDTO hobbyReviewDTO=hobbyReviewMapper.toHobbyReviewDTO( hobbyReviewRepository.save(hobbyReview));
+       return hobbyReviewDTO;
+    }
+
 }

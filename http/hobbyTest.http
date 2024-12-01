@@ -1,9 +1,18 @@
 ###취미 게시판 전체 보기
-http://localhost:8081/hobby-board
+GET http://localhost:8081/hobby-board
 
 ###취미 게시판 카테고리별 전체보기
-http://localhost:8081/hobby-board/1
+GET http://localhost:8081/hobby-board/1
 
 ###취미 게시판 상세 보기, 관련된 후기 가져오기
-http://localhost:8081/hobby-detail/1
+GET http://localhost:8081/hobby-detail/1
+
+###취미 게시판 후기 작성
+POST http://localhost:8081/hobby-review
+
+###취미 게시판 후기 수정
+POST http://localhost:8081/hobby-review/1
+
+###취미 게시판 후기 삭제
+DELETE
 

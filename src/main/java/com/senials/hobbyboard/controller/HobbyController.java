@@ -62,6 +62,7 @@ public class HobbyController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
     }
 
+    //취미 카테고리별 취미 목록 조회
     @GetMapping("/hobby-board/{categoryNumber}")
     public ResponseEntity<ResponseMessage> findHobbyByCategory(@PathVariable("categoryNumber")int categoryNumber){
 
