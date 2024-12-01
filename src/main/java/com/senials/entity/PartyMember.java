@@ -29,7 +29,7 @@ public class PartyMember {
 
 
     @OneToMany(mappedBy = "partyMember", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MeetMember> meetMembers;
+    private List<MeetMember> meetMemberShip;
 
 
     /* AllArgsConstructor */
