@@ -65,4 +65,24 @@ public class HobbyReview {
     public void InitializersUser(User user){
         this.user=user;
     }
+
+    public void updateHobbyReviewRate(int hobbyReviewRate) {
+        this.hobbyReviewRate = hobbyReviewRate;
+    }
+
+    public void updateHobbyReviewDetail(String hobbyReviewDetail) {
+        this.hobbyReviewDetail = hobbyReviewDetail;
+    }
+
+    public void updateHobbyReviewHealthStatus(int hobbyReviewHealthStatus) {
+        this.hobbyReviewHealthStatus = hobbyReviewHealthStatus;
+    }
+
+    public void updateHobbyReviewTendency(int hobbyReviewTendency) {
+        this.hobbyReviewTendency = hobbyReviewTendency;
+    }
+
+    public void updateHobbyReviewLevel(int hobbyReviewLevel) {
+        this.hobbyReviewLevel = hobbyReviewLevel;
+    }
 }
