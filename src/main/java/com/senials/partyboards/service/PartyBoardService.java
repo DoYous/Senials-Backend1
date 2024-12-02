@@ -1,14 +1,13 @@
 package com.senials.partyboards.service;
 
-import com.senials.entity.Hobby;
-import com.senials.entity.PartyBoardImage;
-import com.senials.entity.User;
+import com.senials.entity.*;
 import com.senials.partyboards.dto.*;
-import com.senials.entity.PartyBoard;
 import com.senials.partyboards.mapper.PartyBoardMapper;
 import com.senials.partyboards.mapper.PartyBoardMapperImpl;
+import com.senials.partyboards.mapper.UserMapper;
 import com.senials.partyboards.repository.HobbyRepository;
 import com.senials.partyboards.repository.PartyBoardRepository;
+import com.senials.partyboards.repository.PartyMemberRepository;
 import com.senials.partyboards.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,18 +23,32 @@ public class PartyBoardService {
 
     private final String imageRootPath = "src/main/resources/static/img/party_board";
 
+    private final UserMapper userMapper;
+
     private final PartyBoardMapper partyBoardMapper;
 
     private final PartyBoardRepository partyBoardRepository;
+
+    private final PartyMemberRepository partyMemberRepository;
 
     private final UserRepository userRepository;
 
     private final HobbyRepository hobbyRepository;
 
+
     @Autowired
-    public PartyBoardService(PartyBoardMapperImpl partyBoardMapperImpl, PartyBoardRepository partyBoardRepository, UserRepository userRepository, HobbyRepository hobbyRepository) {
+    public PartyBoardService(
+            UserMapper userMapper
+            , PartyBoardMapperImpl partyBoardMapperImpl
+            , PartyBoardRepository partyBoardRepository
+            , PartyMemberRepository partyMemberRepository
+            , UserRepository userRepository
+            , HobbyRepository hobbyRepository
+    ) {
+        this.userMapper = userMapper;
         this.partyBoardMapper = partyBoardMapperImpl;
         this.partyBoardRepository = partyBoardRepository;
+        this.partyMemberRepository = partyMemberRepository;
         this.userRepository = userRepository;
         this.hobbyRepository = hobbyRepository;
     }
@@ -61,6 +74,23 @@ public class PartyBoardService {
         partyBoardDTO.setImages(partyBoard.getImages().stream().map(image -> partyBoardMapper.toPartyBoardImageDTO(image)).toList());
 
         return partyBoardDTO;
+    }
+
+    /* 모임 멤버 전체 조회 */
+    public List<UserDTOForPublic> getPartyBoardMembers (int partyBoardNumber) {
+
+        PartyBoard partyBoard = partyBoardRepository.findById(partyBoardNumber)
+                .orElseThrow(IllegalArgumentException::new);
+
+        /* 모임 번호에 해당하는 멤버 리스트 도출 */
+        List<PartyMember> partyMemberList = partyMemberRepository.findAllByPartyBoard(partyBoard);
+
+        /* 멤버 리스트를 통해 유저 정보 도출 */
+        List<UserDTOForPublic> userDTOForPublicList = partyMemberList.stream()
+                .map(partyMember -> userMapper.toUserDTOForPublic(partyMember.getUser()))
+                .toList();
+
+        return userDTOForPublicList;
     }
 
 

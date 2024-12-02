@@ -98,6 +98,6 @@ public class PartyReviewService {
     public void removePartyReview (int partyReviewNumber) {
 
         partyReviewRepository.deleteById(partyReviewNumber);
-        
+
     }
 }

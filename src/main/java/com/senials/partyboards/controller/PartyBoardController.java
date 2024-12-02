@@ -110,6 +110,21 @@ public class PartyBoardController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
     }
 
+    /* 모임 멤버 전체 조회 */
+    @GetMapping("/partyboards/{partyBoardNumber}/partymembers")
+    public ResponseEntity<ResponseMessage> getPartyBoardMembers (
+            @PathVariable Integer partyBoardNumber
+    ) {
+        List<UserDTOForPublic> userDTOForPublicList = partyBoardService.getPartyBoardMembers(partyBoardNumber);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("partyMembers", userDTOForPublicList);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 멤버 전체 조회 성공", responseMap));
+    }
+
     /* 모임 글 작성 */
     @PostMapping("/partyboards")
     public ResponseEntity<ResponseMessage> registerPartyBoard(
