@@ -99,4 +99,10 @@ public class PartyBoard {
     public void updatePartyBoardStatus(int partyBoardStatus) {
         this.partyBoardStatus = partyBoardStatus;
     }
+
+
+    /* 모임 가입 */
+    public void registerPartyMember(PartyMember partyMember) {
+        this.members.add(partyMember);
+    }
 }

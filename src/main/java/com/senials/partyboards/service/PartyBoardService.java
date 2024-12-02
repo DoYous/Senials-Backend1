@@ -77,7 +77,7 @@ public class PartyBoardService {
     }
 
     /* 모임 멤버 전체 조회 */
-    public List<UserDTOForPublic> getPartyBoardMembers (int partyBoardNumber) {
+    public List<UserDTOForPublic> getPartyMembers (int partyBoardNumber) {
 
         PartyBoard partyBoard = partyBoardRepository.findById(partyBoardNumber)
                 .orElseThrow(IllegalArgumentException::new);
@@ -91,6 +91,22 @@ public class PartyBoardService {
                 .toList();
 
         return userDTOForPublicList;
+    }
+
+
+    /* 모임 참가 */
+    @Transactional
+    public void registerPartyMember (int userNumber, int partyBoardNumber) {
+        User user = userRepository.findById(userNumber)
+                .orElseThrow(IllegalArgumentException::new);
+
+        PartyBoard partyBoard = partyBoardRepository.findById(partyBoardNumber)
+                .orElseThrow(IllegalArgumentException::new);
+
+        PartyMember newMember = new PartyMember(0, partyBoard, user);
+
+        partyBoard.registerPartyMember(newMember);
+
     }
 
 
