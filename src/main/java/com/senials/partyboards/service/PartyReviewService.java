@@ -58,7 +58,11 @@ public class PartyReviewService {
 
     /* 모임 후기 작성 */
     @Transactional
-    public void registerPartyReview (int userNumber, int partyBoardNumber, PartyReviewDTO partyReviewDTO) {
+    public void registerPartyReview (
+            int userNumber
+            , int partyBoardNumber
+            , PartyReviewDTO partyReviewDTO
+    ) {
 
         User user = userRepository.findById(userNumber)
                 .orElseThrow(IllegalArgumentException::new);
@@ -74,5 +78,18 @@ public class PartyReviewService {
 
 
         partyReviewRepository.save(partyReview);
+    }
+
+    /* 모임 후기 수정 */
+    @Transactional
+    public void modifyPartyReview(
+            int partyReviewNumber
+            , PartyReviewDTO partyReviewDTO
+    ) {
+        PartyReview partyReview = partyReviewRepository.findById(partyReviewNumber)
+                .orElseThrow(IllegalArgumentException::new);
+
+        partyReview.updatePartyReviewRate(partyReviewDTO.getPartyReviewRate());
+        partyReview.updatePartyReviewDetail(partyReviewDTO.getPartyReviewDetail());
     }
 }

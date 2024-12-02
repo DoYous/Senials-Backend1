@@ -84,7 +84,13 @@ Content-Type: application/json;application/json;charset=UTF-8
 }
 
 ### 모임 후기 수정
-PUT /partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}
+PUT http://localhost:8080/partyboards/1/partyreviews/10
+Content-Type: application/json;application/json;charset=UTF-8
+
+{
+  "partyReviewRate" : 4,
+  "partyReviewDetail" : "testPartyReviewDetailModified"
+}
 
 ### 모임 후기 삭제
 DELETE /partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}
