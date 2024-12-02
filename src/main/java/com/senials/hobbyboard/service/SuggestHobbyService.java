@@ -1,9 +1,13 @@
 package com.senials.hobbyboard.service;
 
+import com.senials.entity.Favorites;
 import com.senials.entity.Hobby;
+import com.senials.entity.User;
 import com.senials.hobbyboard.dto.HobbyDTO;
 import com.senials.hobbyboard.mapper.HobbyMapper;
+import com.senials.hobbyboard.repository.FavoritesRepository;
 import com.senials.hobbyboard.repository.HobbyRepository;
+import com.senials.hobbyboard.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +19,14 @@ public class SuggestHobbyService {
 
     private final HobbyRepository hobbyRepository;
     private final HobbyMapper hobbyMapper;
+    private final UserRepository userRepository;
+    private final FavoritesRepository favoritesRepository;
 
-    public SuggestHobbyService(HobbyRepository hobbyRepository,HobbyMapper hobbyMapper){
-        this.hobbyRepository=hobbyRepository;
-        this.hobbyMapper=hobbyMapper;
+    public SuggestHobbyService(HobbyRepository hobbyRepository, HobbyMapper hobbyMapper, UserRepository userRepository, FavoritesRepository favoritesRepository) {
+        this.hobbyRepository = hobbyRepository;
+        this.hobbyMapper = hobbyMapper;
+        this.userRepository = userRepository;
+        this.favoritesRepository = favoritesRepository;
     }
 
     public HobbyDTO suggestHobby(int hobbyAbility, int hobbyBudget, int hobbyLevel, int hobbyTendency){
@@ -53,5 +61,18 @@ public class SuggestHobbyService {
         HobbyDTO hobbyDTO = hobbyDTOList.get(randomIndex);
 
         return hobbyDTO;
+    }
+
+
+    public Favorites setFavoritesByHobby(int hobbyNumber, int userNumber){
+        User user= userRepository.findById(userNumber).orElseThrow(() -> new IllegalArgumentException("해당 유저 번호가 존재하지 않습니다: " + userNumber));
+        Hobby hobby=hobbyRepository.findById(hobbyNumber).orElseThrow(() -> new IllegalArgumentException("해당 취미 번호가 존재하지 않습니다: " + hobbyNumber));
+        Favorites favoritesEntity = new Favorites();
+        favoritesEntity.InitializeHobby(hobby);
+        favoritesEntity.InitializesUser(user);
+
+        Favorites favorites=favoritesRepository.save(favoritesEntity);
+
+        return favorites;
     }
 }

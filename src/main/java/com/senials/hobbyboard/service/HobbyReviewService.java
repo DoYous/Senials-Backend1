@@ -10,7 +10,6 @@ import com.senials.hobbyboard.repository.HobbyReviewRepository;
 import com.senials.hobbyboard.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,11 +44,11 @@ public class HobbyReviewService {
 
     //취미 번호와 유저 번호를 통해 취미후기를 생성
     public HobbyReview saveHobbyReview(HobbyReviewDTO hobbyReviewDTO,int userNumber, int hobbyNumber) {
-        User user= (User) userRepository.findById(userNumber).orElseThrow(() -> new IllegalArgumentException("해당 유저 번호가 존재하지 않습니다: " + userNumber));;
+        User user= userRepository.findById(userNumber).orElseThrow(() -> new IllegalArgumentException("해당 유저 번호가 존재하지 않습니다: " + userNumber));;
         Hobby hobby=hobbyRepository.findById(hobbyNumber).orElseThrow(() -> new IllegalArgumentException("해당 취미 번호가 존재하지 않습니다: " + hobbyNumber));
         HobbyReview hobbyReviewEntity = hobbyReviewMapper.toHobbyReviewEntity(hobbyReviewDTO);
-        hobbyReviewEntity.InitializersUser(user);
-        hobbyReviewEntity.InitializersHobby(hobby);
+        hobbyReviewEntity.InitializeUser(user);
+        hobbyReviewEntity.InitializeHobby(hobby);
         HobbyReview hobbyReview=hobbyReviewRepository.save(hobbyReviewEntity);
 
         return hobbyReview;

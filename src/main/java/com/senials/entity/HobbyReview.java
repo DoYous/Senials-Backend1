@@ -58,11 +58,11 @@ public class HobbyReview {
         this.hobbyReviewWriteDate = hobbyReviewWriteDate;
     }
 
-    public void InitializersHobby(Hobby hobby) {
+    public void InitializeHobby(Hobby hobby) {
         this.hobby = hobby;
     }
 
-    public void InitializersUser(User user){
+    public void InitializeUser(User user){
         this.user=user;
     }
 
