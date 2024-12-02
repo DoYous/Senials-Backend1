@@ -41,5 +41,27 @@ public class HobbyReviewController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(201, "생성 성공", responseMap));
     }
 
+    @DeleteMapping("/{hobbyNumber}/hobby-review/{hobbyReviewNumber}")
+    public ResponseEntity<ResponseMessage> deleteHobbyReview(
+            @PathVariable("hobbyNumber") int hobbyNumber,
+            @PathVariable("hobbyReviewNumber") int hobbyReviewNumber) {
+        try {
+            hobbyReviewService.deleteHobbyReview(hobbyReviewNumber, userNumber, hobbyNumber);
 
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("message", "삭제 성공");
+
+            return ResponseEntity.ok()
+                    .headers(globalHttpHeadersConfig.createJsonHeaders())
+                    .body(new ResponseMessage(204, "삭제 성공", responseMap));
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> errorMap = new HashMap<>();
+            errorMap.put("message", e.getMessage());
+
+            return ResponseEntity.badRequest()
+                    .headers(globalHttpHeadersConfig.createJsonHeaders())
+                    .body(new ResponseMessage(400, "삭제 실패", errorMap));
+        }
+
+    }
 }
