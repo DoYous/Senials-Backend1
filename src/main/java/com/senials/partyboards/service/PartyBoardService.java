@@ -5,11 +5,13 @@ import com.senials.partyboards.dto.*;
 import com.senials.partyboards.mapper.PartyBoardMapper;
 import com.senials.partyboards.mapper.PartyBoardMapperImpl;
 import com.senials.partyboards.mapper.UserMapper;
-import com.senials.partyboards.repository.HobbyRepository;
-import com.senials.partyboards.repository.PartyBoardRepository;
-import com.senials.partyboards.repository.PartyMemberRepository;
-import com.senials.partyboards.repository.UserRepository;
+import com.senials.partyboards.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,15 +56,75 @@ public class PartyBoardService {
     }
 
 
-    // public List<PartyBoardDTO> searchPartySorting(String keyword, String sortColumn, String compareChar, String sortDirection, Integer cursor) {
-    //
-    //
-    //     List<PartyBoard> partyBoardList = partyBoardRepository.findTopByPartyBoardName(keyword, sortColumn, compareChar, sortDirection, cursor);
-    //
-    //     List<PartyBoardDTO> partyBoardDTOList = partyBoardList.stream().map(partyBoard -> partyBoardMapper.toPartyBoardDTO(partyBoard)).toList();
-    //
-    //     return partyBoardDTOList;
-    // }
+    /* 모임 검색 및 정렬 */
+    public List<PartyBoardDTOForDetail> searchPartyBoard(String sortMethod, String keyword, Integer cursor, int size) {
+
+        Sort.Order numberAsc = Sort.Order.asc("partyBoardNumber");
+        Sort.Order numberDesc = Sort.Order.desc("partyBoardNumber");
+
+        String sortColumn = null;
+        Pageable pageable = null;
+        boolean isAscending = false;
+        boolean isIntegerSort = true;
+
+        switch (sortMethod) {
+            /* 최신순 */
+            case "lastest":
+                sortColumn = "partyBoardOpenDate";
+                pageable = PageRequest.of(0, size
+                        , Sort.by(Sort.Order.asc(sortColumn), numberDesc));
+                isIntegerSort = false;
+                break;
+
+            /* 오래된 순*/
+            case "oldest":
+                sortColumn = "partyBoardOpenDate";
+                pageable = PageRequest.of(0, size
+                        , Sort.by(Sort.Order.asc(sortColumn), numberAsc));
+                isAscending = true;
+                isIntegerSort = false;
+                break;
+
+            /* 좋아요순 */
+            case "mostLiked":
+                sortColumn = "partyBoardLikeCnt";
+                pageable = PageRequest.of(0, size
+                        , Sort.by(Sort.Order.asc(sortColumn), numberAsc));
+                break;
+
+            /* 조회수순 */
+            case "mostViewed":
+                sortColumn = "partyBoardViewCnt";
+                pageable = PageRequest.of(0, size
+                        , Sort.by(Sort.Order.asc(sortColumn), numberAsc));
+                break;
+            default:
+        }
+
+        Page<PartyBoard> partyBoardList = null;
+
+        /* 첫 페이지 로딩 OR 정렬 변경 직후 */
+        if(cursor == null) {
+            partyBoardList = partyBoardRepository.findAll(PageRequest.of(0, size
+                    , isAscending ? Sort.by(Sort.Order.asc(sortColumn), numberAsc) : Sort.by(Sort.Order.desc(sortColumn), numberDesc)));
+
+        /* 더보기 버튼으로 로드 */
+        } else {
+            Specification<PartyBoard> spec = null;
+
+            if(isIntegerSort) {
+                spec = PartyBoardSpecification.searchLoadInteger(sortColumn, keyword, cursor, isAscending);
+            } else {
+                spec = PartyBoardSpecification.searchLoadLocalDate(sortColumn, keyword, cursor, isAscending);
+            }
+
+            partyBoardList = partyBoardRepository.findAll(spec, pageable);
+
+        }
+
+        return partyBoardList.map(partyBoardMapper::toPartyBoardDTOForDetail).toList();
+    }
+
 
     // 모임 상세 조회
     public PartyBoardDTOForDetail getPartyBoardByNumber(int partyBoardNumber) {

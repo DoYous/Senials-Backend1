@@ -6,13 +6,10 @@ GET https://examples.http-client.intellij.net/get
 GET http://localhost:8080/partyboards/search
 
 ###
-GET http://localhost:8080/partyboards/search?cursor=3&isAscending=1
+GET http://localhost:8080/partyboards/search?cursor=2&sortMethod=oldest
 
 ###
-GET http://localhost:8080/partyboards/search?cursor=7&isAscending=1&sortMethod=mostLiked
-
-###
-GET http://localhost:8080/partyboards/search?cursor=3&isAscending=1
+GET http://localhost:8080/partyboards/search?sortMethod=mostViewed
 
 
 ### 모임 상세 조회

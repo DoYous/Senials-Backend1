@@ -1,17 +1,23 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
+import com.senials.entity.PartyBoard;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
 import com.senials.partyboards.service.PartyReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -43,56 +49,30 @@ public class PartyBoardController {
 
     // 모임 검색
     // 쿼리스트링
-    // 1. keyword : 검색어
-    // 2. sortMethod : 검색결과 정렬기준 (기본 - 최신순; lastest)
+    // 1. sortMethod : 검색결과 정렬기준 (기본 - 최신순; lastest)
+    // 2. keyword : 검색어
     // 3. cursor : 클라이언트가 마지막으로 받은 검색결과 partyBoardNumber (마지막 검색결과 다음 행부터 N개 게시글 Response)
-    // @GetMapping("/partyboards/search")
-    // public ResponseEntity<ResponseMessage> searchPartyBoard(
-    //     @RequestParam(required = false) String keyword,
-    //     @RequestParam(required = false, defaultValue = "lastest") String sortMethod,
-    //     @RequestParam(required = false) boolean isAscending,
-    //     @RequestParam(required = false) Integer cursor
-    // )
-    // {
-    //     String sortColumn = null;
-    //
-    //     switch (sortMethod) {
-    //         // 최신순, 오래된순
-    //         case "lastest":
-    //             sortColumn = "party_board_open_date";
-    //             break;
-    //         case "oldest":
-    //             sortColumn = "party_board_open_date";
-    //             break;
-    //         // 좋아요순
-    //         case "mostLiked":
-    //             sortColumn = "party_board_like_cnt";
-    //             break;
-    //         // 조회순
-    //         case "mostViewed":
-    //             sortColumn = "party_board_view_cnt";
-    //             break;
-    //         default:
-    //     }
-    //
-    //     String compareChar = "<";
-    //     String sortDirection = "desc";
-    //     if (isAscending) {
-    //         compareChar = ">";
-    //         sortDirection = "asc";
-    //     }
-    //
-    //     List<PartyBoardDTO> partyBoardDTOList = partyBoardService.searchPartySorting(keyword, sortColumn, compareChar, sortDirection, cursor);
-    //
-    //     // ResponseHeader 설정
-    //     HttpHeaders headers = new HttpHeaders();
-    //     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-    //     // ResponseBody 삽입
-    //     Map<String, Object> responseMap = new HashMap<>();
-    //     responseMap.put("partyBoards", partyBoardDTOList);
-    //
-    //     return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
-    // }
+    // 4. size : 한 번에 요청할 데이터 개수 (기본 - 8)
+    @GetMapping("/partyboards/search")
+    public ResponseEntity<ResponseMessage> searchPartyBoard(
+            @RequestParam(required = false, defaultValue = "lastest") String sortMethod
+            , @RequestParam(required = false) String keyword
+            , @RequestParam(required = false) Integer cursor
+            , @RequestParam(required = false, defaultValue = "8") Integer size
+    )
+    {
+        List<PartyBoardDTOForDetail> partyBoardDTOList = partyBoardService.searchPartyBoard(sortMethod, keyword, cursor, size);
+        int nextCursor = partyBoardDTOList.get(partyBoardDTOList.size() - 1).getPartyBoardNumber();
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("partyBoards", partyBoardDTOList);
+        responseMap.put("cursor", nextCursor);
+
+        // ResponseHeader 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
+    }
 
     // 모임 상세 조회
     @GetMapping("/partyboards/{partyBoardNumber}")

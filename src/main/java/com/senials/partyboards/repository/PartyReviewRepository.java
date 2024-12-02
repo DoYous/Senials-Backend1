@@ -9,4 +9,7 @@ import java.util.List;
 public interface PartyReviewRepository extends JpaRepository<PartyReview, Integer> {
 
     List<PartyReview> findAllByPartyBoardOrderByPartyReviewWriteDateDesc(PartyBoard partyBoard);
+
+
+
 }
