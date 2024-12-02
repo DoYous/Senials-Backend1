@@ -32,7 +32,6 @@ public class HobbyService {
         Hobby hobby=hobbyRepository.findById(hobbyNumber).orElseThrow(() -> new IllegalArgumentException("해당 취미가 존재하지 않습니다: " + hobbyNumber));
         HobbyDTO hobbyDTO=hobbyMapper.toHobbyDTO(hobby);
 
-
         return hobbyDTO;
     }
 

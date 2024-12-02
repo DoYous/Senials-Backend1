@@ -20,6 +20,9 @@ Content-Type: application/json;charset=UTF-8
   "hobbyReviewWriteDate": "2024-12-02"
 }
 
+###취미 게시판 후기 조회
+GET http://localhost:8081/1/hobby-review/8
+
 ###취미 게시판 후기 수정
 POST http://localhost:8081/1/hobby-review/1
 

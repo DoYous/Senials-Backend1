@@ -27,7 +27,7 @@ public class HobbyReviewService {
     }
 
     //취미 번호가 같은 취미리뷰 리스트 불러오기
-    public List<HobbyReviewDTO> getReviewsByHobbyNumber(int hobbyNumber) {
+    public List<HobbyReviewDTO> getReviewsListByHobbyNumber(int hobbyNumber) {
         Hobby hobby = hobbyRepository.findById(hobbyNumber)
                 .orElseThrow(() -> new IllegalArgumentException("해당 취미 번호가 존재하지 않습니다: " + hobbyNumber));
         List<HobbyReview> hobbyReviewList=hobbyReviewRepository.findByHobby(hobby);
@@ -67,7 +67,25 @@ public class HobbyReviewService {
             throw new IllegalArgumentException("해당 취미의 리뷰가 아닙니다.");
         }
         hobbyReviewRepository.delete(hobbyReview);
-
     }
 
+    //취미번호, 유저번호, 리뷰번호를 통한 대조후 취미리뷰 조회
+    public HobbyReviewDTO getHobbyReview(int hobbyNumber, int userNumber, int hobbyReviewNumber){
+        User user= (User) userRepository.findById(userNumber).orElseThrow(() -> new IllegalArgumentException("해당 유저 번호가 존재하지 않습니다: " + userNumber));;
+        Hobby hobby=hobbyRepository.findById(hobbyNumber).orElseThrow(() -> new IllegalArgumentException("해당 취미 번호가 존재하지 않습니다: " + hobbyNumber));
+        HobbyReview hobbyReview = hobbyReviewRepository.findById(hobbyReviewNumber).orElseThrow(() -> new IllegalArgumentException("해당 리뷰 번호가 존재하지 않습니다: " + hobbyReviewNumber));
+        if(!hobbyReview.getUser().equals(user)){
+            throw new IllegalArgumentException("해당 유저의 리뷰가 아닙니다.");
+        }
+        if
+        (!hobbyReview.getHobby().equals(hobby)) {
+            throw new IllegalArgumentException("해당 취미의 리뷰가 아닙니다.");
+        }
+        HobbyReviewDTO hobbyReviewDTO=hobbyReviewMapper.toHobbyReviewDTO(hobbyReview);
+        hobbyReviewDTO.setHobbyNumber(hobby.getHobbyNumber());
+        hobbyReviewDTO.setUserNumber(user.getUserNumber());
+        hobbyReviewDTO.setUserName(hobbyReview.getUser().getUserName());
+
+        return hobbyReviewDTO;
+    }
 }

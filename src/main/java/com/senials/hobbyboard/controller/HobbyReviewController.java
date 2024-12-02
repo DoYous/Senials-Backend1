@@ -41,6 +41,7 @@ public class HobbyReviewController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(201, "생성 성공", responseMap));
     }
 
+    //취미 후기 삭제
     @DeleteMapping("/{hobbyNumber}/hobby-review/{hobbyReviewNumber}")
     public ResponseEntity<ResponseMessage> deleteHobbyReview(
             @PathVariable("hobbyNumber") int hobbyNumber,
@@ -62,6 +63,21 @@ public class HobbyReviewController {
                     .headers(globalHttpHeadersConfig.createJsonHeaders())
                     .body(new ResponseMessage(400, "삭제 실패", errorMap));
         }
+    }
 
+    //취미 후기 조회
+    @GetMapping("{hobbyNumber}/hobby-review/{hobbyReviewNumber}")
+    public ResponseEntity<ResponseMessage> getHobbyReview(
+            @PathVariable("hobbyNumber") int hobbyNumber,
+            @PathVariable("hobbyReviewNumber") int hobbyReviewNumber) {
+
+        HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
+
+       HobbyReviewDTO hobbyReviewDTO= hobbyReviewService.getHobbyReview(hobbyNumber,userNumber,hobbyReviewNumber);
+
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("hobbyReview",hobbyReviewDTO);
+
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "생성 성공", responseMap));
     }
 }

@@ -53,7 +53,7 @@ public class HobbyController {
         HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
 
         HobbyDTO hobbyDTO = hobbyService.findById(hobbyNumber);
-        List<HobbyReviewDTO> hobbyReviewDTOList=hobbyReviewService.getReviewsByHobbyNumber(hobbyNumber);
+        List<HobbyReviewDTO> hobbyReviewDTOList=hobbyReviewService.getReviewsListByHobbyNumber(hobbyNumber);
 
         Map<String, Object> responseMap = new HashMap<String, Object>();
         responseMap.put("hobby", hobbyDTO);
