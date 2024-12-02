@@ -108,4 +108,4 @@ Content-Type: application/json;charset=utf-8
 }
 
 ### 모임 탈퇴
-DELETE /partyboards/{partyBoardNumber}/partymembers/{partyMemberNumber}
+DELETE http://localhost:8080/partyboards/2/partymembers/6

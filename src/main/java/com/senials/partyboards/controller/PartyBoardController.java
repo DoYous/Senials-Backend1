@@ -140,6 +140,19 @@ public class PartyBoardController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 가입 성공", null));
     }
 
+    /* 모임 탈퇴 */
+    @DeleteMapping("/partyboards/{partyBoardNumber}/partymembers/{partyMemberNumber}")
+    public ResponseEntity<ResponseMessage> unregisterPartyMember (
+            @PathVariable Integer partyMemberNumber
+    ) {
+
+        partyBoardService.unregisterPartyMember(partyMemberNumber);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 탈퇴 성공", null));
+    }
+
     /* 모임 글 작성 */
     @PostMapping("/partyboards")
     public ResponseEntity<ResponseMessage> registerPartyBoard(

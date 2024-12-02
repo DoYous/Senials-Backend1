@@ -110,6 +110,15 @@ public class PartyBoardService {
     }
 
 
+    /* 모임 탈퇴 */
+    @Transactional
+    public void unregisterPartyMember (int partyMemberNumber) {
+
+        partyMemberRepository.deleteById(partyMemberNumber);
+
+    }
+
+
     /* 모임 글 작성 */
     @Transactional
     public int registerPartyBoard(PartyBoardDTOForWrite newPartyBoardDTO) {
