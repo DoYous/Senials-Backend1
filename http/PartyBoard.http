@@ -93,7 +93,7 @@ Content-Type: application/json;application/json;charset=UTF-8
 }
 
 ### 모임 후기 삭제
-DELETE /partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}
+DELETE http://localhost:8080/partyboards/1/partyreviews/10
 
 ### 모임 멤버 전체 조회
 GET /partyboards/{partyBoardNumber}/partymembers
