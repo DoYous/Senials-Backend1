@@ -18,4 +18,17 @@ public class HobbyReviewDTO {
     private int hobbyReviewTendency; // 성향 (예: true = 외향적, false = 내향적)
     private int hobbyReviewLevel; // 취미 난이도 (1-쉬움, 2-약간 쉬움, 3-평범, 4-약간 어려움, 5-어려움)
     private String hobbyReviewWriteDate; // 후기 작성 날짜
+
+    public HobbyReviewDTO(int hobbyReviewNumber, int userNumber, String userName, int hobbyNumber, int hobbyReviewRate, String hobbyReviewDetail, int hobbyReviewHealthStatus, int hobbyReviewTendency, int hobbyReviewLevel, String hobbyReviewWriteDate) {
+        this.hobbyReviewNumber = hobbyReviewNumber;
+        this.userNumber = userNumber;
+        this.userName = userName;
+        this.hobbyNumber = hobbyNumber;
+        this.hobbyReviewRate = hobbyReviewRate;
+        this.hobbyReviewDetail = hobbyReviewDetail;
+        this.hobbyReviewHealthStatus = hobbyReviewHealthStatus;
+        this.hobbyReviewTendency = hobbyReviewTendency;
+        this.hobbyReviewLevel = hobbyReviewLevel;
+        this.hobbyReviewWriteDate = hobbyReviewWriteDate;
+    }
 }

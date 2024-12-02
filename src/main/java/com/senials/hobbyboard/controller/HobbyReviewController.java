@@ -5,14 +5,17 @@ import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.entity.HobbyReview;
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
 import com.senials.hobbyboard.service.HobbyReviewService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class HobbyReviewController {
+
+    int userNumber=1;
 
     private final HobbyReviewService hobbyReviewService;
 
@@ -25,13 +28,18 @@ public class HobbyReviewController {
 
 
     //취미 후기 작성
-    @PostMapping("/hobby-review")
-    public HobbyReviewDTO createHobbyReview(@RequestBody HobbyReview hobbyReview) {
-        return hobbyReviewService.saveHobbyReview(hobbyReview);
-    }
+    @PostMapping("/{hobbyNumber}/hobby-review")
+    public ResponseEntity<ResponseMessage> createHobbyReview(@RequestBody HobbyReviewDTO hobbyReviewDTO, @PathVariable("hobbyNumber")int hobbyNumber) {
 
-    @DeleteMapping("/hobby-review/{reviewNumber}")
-    public ResponseEntity<ResponseMessage>
+        HttpHeaders headers = globalHttpHeadersConfig.createJsonHeaders();
+
+        HobbyReview hobbyReview= hobbyReviewService.saveHobbyReview(hobbyReviewDTO,userNumber,hobbyNumber);
+
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("hobbyReview",hobbyReview);
+
+        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(201, "생성 성공", responseMap));
+    }
 
 
 }
