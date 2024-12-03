@@ -1,11 +1,11 @@
 package com.senials.partyboards.service;
 
-import com.senials.entity.*;
+import com.senials.common.entity.*;
+import com.senials.common.repository.*;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.mapper.PartyBoardMapper;
 import com.senials.partyboards.mapper.PartyBoardMapperImpl;
 import com.senials.partyboards.mapper.UserMapper;
-import com.senials.partyboards.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

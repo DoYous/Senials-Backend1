@@ -1,7 +1,7 @@
-package com.senials.partyboards.repository;
+package com.senials.common.repository;
 
-import com.senials.entity.Hobby;
-import com.senials.entity.PartyBoard;
+import com.senials.common.entity.Hobby;
+import com.senials.common.entity.PartyBoard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

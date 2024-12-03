@@ -1,6 +1,6 @@
 package com.senials.hobbyboard.mapper;
 
-import com.senials.entity.HobbyReview;
+import com.senials.common.entity.HobbyReview;
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
 import org.mapstruct.Mapper;
 

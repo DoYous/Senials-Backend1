@@ -1,10 +1,9 @@
-package com.senials.entity;
+package com.senials.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.List;

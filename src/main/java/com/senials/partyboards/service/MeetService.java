@@ -1,20 +1,22 @@
 package com.senials.partyboards.service;
 
-import com.senials.entity.*;
+import com.senials.common.entity.Meet;
+import com.senials.common.entity.MeetMember;
+import com.senials.common.entity.PartyBoard;
+import com.senials.common.entity.User;
+import com.senials.common.repository.MeetMemberRepository;
+import com.senials.common.repository.MeetRepository;
+import com.senials.common.repository.PartyBoardRepository;
 import com.senials.partyboards.dto.MeetDTO;
 import com.senials.partyboards.dto.UserDTOForPublic;
 import com.senials.partyboards.mapper.MeetMapper;
 import com.senials.partyboards.mapper.MeetMapperImpl;
 import com.senials.partyboards.mapper.UserMapper;
 import com.senials.partyboards.mapper.UserMapperImpl;
-import com.senials.partyboards.repository.MeetMemberRepository;
-import com.senials.partyboards.repository.MeetRepository;
-import com.senials.partyboards.repository.PartyBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

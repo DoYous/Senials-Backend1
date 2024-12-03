@@ -1,13 +1,13 @@
 package com.senials.hobbyboard.service;
 
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
-import com.senials.entity.Hobby;
-import com.senials.entity.User;
-import com.senials.entity.HobbyReview;
+import com.senials.common.entity.Hobby;
+import com.senials.common.entity.User;
+import com.senials.common.entity.HobbyReview;
 import com.senials.hobbyboard.mapper.HobbyReviewMapper;
-import com.senials.hobbyboard.repository.HobbyRepository;
-import com.senials.hobbyboard.repository.HobbyReviewRepository;
-import com.senials.hobbyboard.repository.UserRepository;
+import com.senials.common.repository.HobbyRepository;
+import com.senials.common.repository.HobbyReviewRepository;
+import com.senials.common.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

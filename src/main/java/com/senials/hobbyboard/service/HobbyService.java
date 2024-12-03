@@ -1,9 +1,9 @@
 package com.senials.hobbyboard.service;
 
 import com.senials.hobbyboard.dto.HobbyDTO;
-import com.senials.entity.Hobby;
+import com.senials.common.entity.Hobby;
 import com.senials.hobbyboard.mapper.HobbyMapper;
-import com.senials.hobbyboard.repository.HobbyRepository;
+import com.senials.common.repository.HobbyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
