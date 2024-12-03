@@ -3,11 +3,14 @@ package com.senials.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "USER")
 public class User {
@@ -24,7 +27,7 @@ public class User {
     private String userName;
 
     @Column(name = "user_birth", nullable = false, length = 255)
-    private String userBirth;
+    private LocalDate userBirth;
 
     @Column(name = "user_email", nullable = false, length = 255)
     private String userEmail;
@@ -48,7 +51,7 @@ public class User {
     private String userProfileImg;
 
     @Column(name = "user_signup_date", nullable = false)
-    private String userSignupDate;
+    private LocalDate userSignupDate;
 
     @Column(name = "user_uuid", nullable = false, length = 5000)
     private String userUuid;
@@ -57,8 +60,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<PartyBoard> partyBoards; // User -> PartyBoard 관계 (1:N)
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes;
+
     /* AllArgsConstructor */
-    public User(int userNumber, String userPwd, String userName, String userBirth, String userEmail, int userGender, int userReportCnt, int userStatus, String userNickname, String userDetail, String userProfileImg, String userSignupDate, String userUuid, List<PartyBoard> partyBoards) {
+    public User(int userNumber, String userPwd, String userName, LocalDate userBirth, String userEmail, int userGender, int userReportCnt, int userStatus, String userNickname, String userDetail, String userProfileImg, LocalDate userSignupDate, String userUuid, List<PartyBoard> partyBoards) {
         this.userNumber = userNumber;
         this.userPwd = userPwd;
         this.userName = userName;

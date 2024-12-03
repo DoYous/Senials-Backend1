@@ -1,5 +1,7 @@
 package com.senials.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,10 +45,16 @@ public class Hobby {
 
     // 관계 설정
     @OneToMany(mappedBy = "hobby")
+    @JsonManagedReference
     private List<PartyBoard> partyBoards; // Hobby -> PartyBoard 관계 (1:N)
 
     @OneToMany(mappedBy = "hobby")
     private List<HobbyReview> hobbyReviews; // Hobby -> HobbyReview 관계 (1:N)
+
+    // 카테고리와의 관계 설정
+    @ManyToOne
+    @JoinColumn(name = "category_number", insertable = false, updatable = false)
+    private Category category;
 
     /* AllArgsConstructor */
     public Hobby(int hobbyNumber, int categoryNumber, String hobbyName, String hobbyExplain, String hobbyImg, int hobbyAbility, int hobbyBudget, int hobbyLevel, int hobbyTendency, List<PartyBoard> partyBoards, List<HobbyReview> hobbyReviews) {
@@ -62,4 +70,6 @@ public class Hobby {
         this.partyBoards = partyBoards;
         this.hobbyReviews = hobbyReviews;
     }
+
+
 }

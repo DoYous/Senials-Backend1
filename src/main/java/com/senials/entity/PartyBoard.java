@@ -1,11 +1,13 @@
 package com.senials.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -26,6 +28,21 @@ public class PartyBoard {
     @ManyToOne
     @JoinColumn(name = "hobby_number", referencedColumnName = "hobby_number", nullable = false)
     private Hobby hobby; // 외래키 hobby_number -> Hobby 엔티티와의 관계
+
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Meet> meets; // PartyBoard -> Meet 관계 (1:N)
+
+    @OneToMany(mappedBy = "partyBoard", fetch = FetchType.EAGER)
+    private List<HobbyReview> reviews;
+
+    @OneToMany(mappedBy = "partyBoard", fetch = FetchType.EAGER)
+    private List<PartyBoardImage> images;
+
+    @OneToMany(mappedBy = "partyBoard")
+    private List<PartyMember> partyMembers; // 참여 인원
+
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes;
 
     @Column(name = "party_board_name", nullable = false, length = 255)
     private String partyBoardName;

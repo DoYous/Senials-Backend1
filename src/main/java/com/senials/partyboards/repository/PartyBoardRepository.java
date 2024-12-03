@@ -15,4 +15,7 @@ public interface PartyBoardRepository extends JpaRepository<PartyBoard, Integer>
 
     // 모임 조회
     List<PartyBoard> findTopByPartyBoardName(String boardName, Sort sort);
+
+    // 사용자별 자신이 생성한 모임 조회
+    List<PartyBoard> findByUser_UserNumber(int userNumber);
 }
