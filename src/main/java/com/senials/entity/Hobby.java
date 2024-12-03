@@ -45,11 +45,14 @@ public class Hobby {
     @OneToMany(mappedBy = "hobby")
     private List<PartyBoard> partyBoards; // Hobby -> PartyBoard 관계 (1:N)
 
-    @OneToMany(mappedBy = "hobby")
+    @OneToMany(mappedBy = "hobby", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HobbyReview> hobbyReviews; // Hobby -> HobbyReview 관계 (1:N)
 
+    @OneToMany(mappedBy = "hobby", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorites> favorites;
+
     /* AllArgsConstructor */
-    public Hobby(int hobbyNumber, int categoryNumber, String hobbyName, String hobbyExplain, String hobbyImg, int hobbyAbility, int hobbyBudget, int hobbyLevel, int hobbyTendency, List<PartyBoard> partyBoards, List<HobbyReview> hobbyReviews) {
+    public Hobby(int hobbyNumber, int categoryNumber, String hobbyName, String hobbyExplain, String hobbyImg, int hobbyAbility, int hobbyBudget, int hobbyLevel, int hobbyTendency, List<PartyBoard> partyBoards, List<HobbyReview> hobbyReviews, List<Favorites> favorites) {
         this.hobbyNumber = hobbyNumber;
         this.categoryNumber = categoryNumber;
         this.hobbyName = hobbyName;
@@ -61,5 +64,6 @@ public class Hobby {
         this.hobbyTendency = hobbyTendency;
         this.partyBoards = partyBoards;
         this.hobbyReviews = hobbyReviews;
+        this.favorites = favorites;
     }
 }

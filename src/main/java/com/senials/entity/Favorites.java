@@ -5,6 +5,7 @@ import lombok.*;
 
 @NoArgsConstructor
 @Getter
+@ToString
 @Entity
 @Table(name = "FAVORITES")
 public class Favorites {
