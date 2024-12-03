@@ -1,4 +1,4 @@
-package com.senials.hobbyboard.dto;
+package com.senials.suggesthobby.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

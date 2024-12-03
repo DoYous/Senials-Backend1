@@ -1,13 +1,13 @@
-package com.senials.hobbyboard.service;
+package com.senials.hobbyreview.service;
 
-import com.senials.hobbyboard.dto.HobbyReviewDTO;
 import com.senials.common.entity.Hobby;
-import com.senials.common.entity.User;
 import com.senials.common.entity.HobbyReview;
-import com.senials.hobbyboard.mapper.HobbyReviewMapper;
+import com.senials.common.entity.User;
+import com.senials.common.mapper.HobbyReviewMapper;
 import com.senials.common.repository.HobbyRepository;
 import com.senials.common.repository.HobbyReviewRepository;
 import com.senials.common.repository.UserRepository;
+import com.senials.hobbyboard.dto.HobbyReviewDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class HobbyReviewService {
 
 
     //취미 번호와 유저 번호를 통해 취미후기를 생성
-    public HobbyReview saveHobbyReview(HobbyReviewDTO hobbyReviewDTO,int userNumber, int hobbyNumber) {
+    public HobbyReview saveHobbyReview(HobbyReviewDTO hobbyReviewDTO, int userNumber, int hobbyNumber) {
         User user= userRepository.findById(userNumber).orElseThrow(() -> new IllegalArgumentException("해당 유저 번호가 존재하지 않습니다: " + userNumber));;
         Hobby hobby=hobbyRepository.findById(hobbyNumber).orElseThrow(() -> new IllegalArgumentException("해당 취미 번호가 존재하지 않습니다: " + hobbyNumber));
         HobbyReview hobbyReviewEntity = hobbyReviewMapper.toHobbyReviewEntity(hobbyReviewDTO);
@@ -87,7 +87,7 @@ public class HobbyReviewService {
             throw new IllegalArgumentException("해당 취미의 리뷰가 아닙니다.");
         }
 
-
+        hobbyReviewRepository.delete(hobbyReview);
     }
 
 

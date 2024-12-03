@@ -1,4 +1,4 @@
-package com.senials.hobbyboard.mapper;
+package com.senials.common.mapper;
 
 import com.senials.common.entity.HobbyReview;
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
