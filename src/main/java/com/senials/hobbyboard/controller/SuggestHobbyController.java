@@ -2,7 +2,7 @@ package com.senials.hobbyboard.controller;
 
 import com.senials.common.ResponseMessage;
 import com.senials.config.GlobalHttpHeadersConfig;
-import com.senials.entity.Favorites;
+import com.senials.common.entity.Favorites;
 import com.senials.hobbyboard.dto.HobbyDTO;
 import com.senials.hobbyboard.service.SuggestHobbyService;
 import org.springframework.http.HttpHeaders;

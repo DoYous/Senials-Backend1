@@ -1,7 +1,7 @@
-package com.senials.partyboards.repository;
+package com.senials.common.repository;
 
-import com.senials.entity.Hobby;
-import com.senials.entity.PartyBoard;
+import com.senials.common.entity.Hobby;
+import com.senials.common.entity.PartyBoard;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;

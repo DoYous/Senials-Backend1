@@ -1,4 +1,4 @@
-package com.senials.entity;
+package com.senials.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor

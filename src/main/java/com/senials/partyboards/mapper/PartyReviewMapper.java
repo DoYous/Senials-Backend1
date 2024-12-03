@@ -1,6 +1,6 @@
 package com.senials.partyboards.mapper;
 
-import com.senials.entity.PartyReview;
+import com.senials.common.entity.PartyReview;
 import com.senials.partyboards.dto.PartyReviewDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

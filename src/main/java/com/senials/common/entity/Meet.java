@@ -1,4 +1,4 @@
-package com.senials.entity;
+package com.senials.common.entity;
 
 import com.senials.partyboards.dto.MeetDTO;
 import jakarta.persistence.*;

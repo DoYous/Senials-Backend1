@@ -1,8 +1,8 @@
 package com.senials.partyboards.mapper;
 
-import com.senials.entity.PartyBoardImage;
+import com.senials.common.entity.PartyBoardImage;
 import com.senials.partyboards.dto.PartyBoardDTO;
-import com.senials.entity.PartyBoard;
+import com.senials.common.entity.PartyBoard;
 import com.senials.partyboards.dto.PartyBoardDTOForDetail;
 import com.senials.partyboards.dto.PartyBoardImageDTO;
 import org.mapstruct.Mapper;

@@ -1,6 +1,6 @@
 package com.senials.partyboards.mapper;
 
-import com.senials.entity.Meet;
+import com.senials.common.entity.Meet;
 import com.senials.partyboards.dto.MeetDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

@@ -1,17 +1,12 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.entity.PartyBoard;
 import com.senials.partyboards.dto.*;
 import com.senials.partyboards.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
 import com.senials.partyboards.service.PartyReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

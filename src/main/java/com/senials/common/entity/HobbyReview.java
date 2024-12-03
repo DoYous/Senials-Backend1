@@ -1,4 +1,4 @@
-package com.senials.entity;
+package com.senials.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;

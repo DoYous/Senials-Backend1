@@ -1,7 +1,7 @@
-package com.senials.partyboards.repository;
+package com.senials.common.repository;
 
-import com.senials.entity.Meet;
-import com.senials.entity.MeetMember;
+import com.senials.common.entity.Meet;
+import com.senials.common.entity.MeetMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

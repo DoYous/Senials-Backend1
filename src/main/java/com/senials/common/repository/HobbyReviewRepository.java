@@ -1,7 +1,7 @@
-package com.senials.hobbyboard.repository;
+package com.senials.common.repository;
 
-import com.senials.entity.Hobby;
-import com.senials.entity.HobbyReview;
+import com.senials.common.entity.Hobby;
+import com.senials.common.entity.HobbyReview;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

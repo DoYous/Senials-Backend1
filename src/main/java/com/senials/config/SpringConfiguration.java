@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@EnableJpaRepositories("com.senials.hobbyboard.repository")
+@EnableJpaRepositories("com.senials.common.repository")
 @ComponentScan(basePackages = {"com.senials"})
-@EntityScan(basePackages = {"com.senials.entity"})
+@EntityScan(basePackages = {"com.senials.common.entity"})
 public class SpringConfiguration {
 
 }
