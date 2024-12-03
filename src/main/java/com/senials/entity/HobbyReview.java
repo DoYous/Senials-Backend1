@@ -17,10 +17,6 @@ public class HobbyReview {
     @Column(name = "hobby_review_number", nullable = false)
     private int hobbyReviewNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "party_board_number", referencedColumnName = "party_board_number", nullable = false)
-    private PartyBoard partyBoard; // PartyBoard와의 관계 설정
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number", referencedColumnName = "user_number", nullable = false)
     private User user; // 외래키 user_number -> User 엔티티

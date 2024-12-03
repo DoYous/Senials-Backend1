@@ -33,9 +33,6 @@ public class PartyBoard {
     private List<Meet> meets; // PartyBoard -> Meet 관계 (1:N)
 
     @OneToMany(mappedBy = "partyBoard", fetch = FetchType.EAGER)
-    private List<HobbyReview> reviews;
-
-    @OneToMany(mappedBy = "partyBoard", fetch = FetchType.EAGER)
     private List<PartyBoardImage> images;
 
     @OneToMany(mappedBy = "partyBoard")
