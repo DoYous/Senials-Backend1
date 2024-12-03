@@ -1,13 +1,13 @@
-package com.senials.hobbyboard.service;
+package com.senials.suggesthobby.service;
 
 import com.senials.common.entity.Favorites;
 import com.senials.common.entity.Hobby;
 import com.senials.common.entity.User;
-import com.senials.hobbyboard.dto.HobbyDTO;
-import com.senials.hobbyboard.mapper.HobbyMapper;
 import com.senials.common.repository.FavoritesRepository;
 import com.senials.common.repository.HobbyRepository;
 import com.senials.common.repository.UserRepository;
+import com.senials.common.mapper.HobbyMapper;
+import com.senials.hobbyboard.dto.HobbyDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.senials.hobbyboard.controller;
+package com.senials.suggesthobby.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.common.entity.Favorites;
+import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.hobbyboard.dto.HobbyDTO;
-import com.senials.hobbyboard.service.SuggestHobbyService;
+import com.senials.suggesthobby.service.SuggestHobbyService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
