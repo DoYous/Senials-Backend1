@@ -40,5 +40,8 @@ out/
 ### application.yml ###
 src/main/resources/application.yml
 
+### testhttp.http ###
+src/main/resources/testhttp.http
+
 ### securtiy ###
 src/main/java/com/senials/security

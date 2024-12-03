@@ -1,6 +1,7 @@
 package com.senials.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +45,7 @@ public class HobbyReview {
     private LocalDate hobbyReviewWriteDate; // 리뷰 작성 날짜
 
     /* AllArgsConstructor */
+    @Builder
     public HobbyReview(int hobbyReviewNumber, User user, Hobby hobby, int hobbyReviewRate, String hobbyReviewDetail, int hobbyReviewHealthStatus, int hobbyReviewTendency, int hobbyReviewLevel, LocalDate hobbyReviewWriteDate) {
         this.hobbyReviewNumber = hobbyReviewNumber;
         this.user = user;
@@ -54,5 +56,33 @@ public class HobbyReview {
         this.hobbyReviewTendency = hobbyReviewTendency;
         this.hobbyReviewLevel = hobbyReviewLevel;
         this.hobbyReviewWriteDate = hobbyReviewWriteDate;
+    }
+
+    public void InitializeHobby(Hobby hobby) {
+        this.hobby = hobby;
+    }
+
+    public void InitializeUser(User user){
+        this.user=user;
+    }
+
+    public void updateHobbyReviewRate(int hobbyReviewRate) {
+        this.hobbyReviewRate = hobbyReviewRate;
+    }
+
+    public void updateHobbyReviewDetail(String hobbyReviewDetail) {
+        this.hobbyReviewDetail = hobbyReviewDetail;
+    }
+
+    public void updateHobbyReviewHealthStatus(int hobbyReviewHealthStatus) {
+        this.hobbyReviewHealthStatus = hobbyReviewHealthStatus;
+    }
+
+    public void updateHobbyReviewTendency(int hobbyReviewTendency) {
+        this.hobbyReviewTendency = hobbyReviewTendency;
+    }
+
+    public void updateHobbyReviewLevel(int hobbyReviewLevel) {
+        this.hobbyReviewLevel = hobbyReviewLevel;
     }
 }

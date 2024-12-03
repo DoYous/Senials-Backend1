@@ -1,9 +1,7 @@
 package com.senials.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @Getter
@@ -14,21 +12,30 @@ public class Favorites {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favorite_number", nullable = false)
+    @Column(name = "favorite_number")
     private int favoriteNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "user_number", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_number", referencedColumnName = "user_number", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "hobby_number", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hobby_number", referencedColumnName = "hobby_number", nullable = false)
     private Hobby hobby;
 
     /* AllArgsConstructor */
+    @Builder
     public Favorites(int favoriteNumber, User user, Hobby hobby) {
         this.favoriteNumber = favoriteNumber;
         this.user = user;
         this.hobby = hobby;
+    }
+
+    public void InitializeHobby(Hobby hobby) {
+        this.hobby = hobby;
+    }
+
+    public void InitializesUser(User user){
+        this.user=user;
     }
 }
