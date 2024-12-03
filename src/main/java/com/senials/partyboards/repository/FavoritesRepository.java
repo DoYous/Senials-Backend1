@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface HobbyRepository extends JpaRepository<Hobby, Integer> {
+public interface FavoritesRepository extends JpaRepository<Favorites, Integer> {
+
+    List<Favorites> findAllByUser(User user);
 
 }

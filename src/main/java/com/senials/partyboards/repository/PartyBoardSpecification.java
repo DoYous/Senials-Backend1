@@ -1,5 +1,6 @@
 package com.senials.partyboards.repository;
 
+import com.senials.entity.Hobby;
 import com.senials.entity.PartyBoard;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
@@ -7,6 +8,7 @@ import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PartyBoardSpecification {
 
@@ -20,6 +22,8 @@ public class PartyBoardSpecification {
             party_board_number </> :cursor
         AND
             party_board_name like %workshop%
+        AND
+            hobby_number in (:hobbyList)
         ORDER BY party_board_open_date asc/desc, party_board_number asc/desc
         LIMIT :size
 
@@ -27,7 +31,7 @@ public class PartyBoardSpecification {
     */
 
     /* LocalDate형으로 정렬할 때 */
-    public static Specification<PartyBoard> searchLoadLocalDate (String sortColumn, String keyword, Integer cursor, boolean isAscending) {
+    public static Specification<PartyBoard> searchLoadLocalDate (String sortColumn, String keyword, Integer cursor, boolean isAscending, List<Hobby> hobbyList) {
         return (root, query, criteriaBuilder) -> {
 
             /* 서브쿼리 세팅 */
@@ -65,23 +69,30 @@ public class PartyBoardSpecification {
 
             /* 검색어 있을 때 */
             // 조건 3: party_board_name LIKE '%workshop%'
+            Predicate condition3 = criteriaBuilder.conjunction();
             if (keyword != null && !keyword.isBlank()) {
-                Predicate condition3 = criteriaBuilder.like(root.get("partyBoardName"), "%" + keyword + "%");
-
-                // 최종 조건 조합: (조건 1 OR 조건 2) AND 조건 3
-                return criteriaBuilder.and(
-                        criteriaBuilder.or(condition1, condition2),
-                        condition3
-                );
-            }else {
-                // 최종 조건 조합: 조건 1 OR 조건 2
-                return criteriaBuilder.or(condition1, condition2);
+                condition3 = criteriaBuilder.like(root.get("partyBoardName"), "%" + keyword + "%");
             }
+
+            /* 관심사 해당 모임만 출력 시 */
+            // 조건 4: hobby_number in :hobbyList
+            Predicate condition4 = criteriaBuilder.conjunction();
+            if(hobbyList != null) {
+                condition4 = criteriaBuilder.in(root.get("hobby")).value(hobbyList);
+            }
+
+            // 최종 조건 조합: (조건 1 OR 조건 2) AND 조건 3 AND 조건 4
+            return criteriaBuilder.and(
+                    criteriaBuilder.or(condition1, condition2)
+                    , condition3
+                    , condition4
+            );
+
         };
     }
 
     /* Integer형으로 정렬할 때 */
-    public static Specification<PartyBoard> searchLoadInteger (String sortColumn, String keyword, Integer cursor, boolean isAscending) {
+    public static Specification<PartyBoard> searchLoadInteger (String sortColumn, String keyword, Integer cursor, boolean isAscending, List<Hobby> hobbyList) {
         return (root, query, criteriaBuilder) -> {
 
             /* 서브쿼리 세팅 */
@@ -119,18 +130,24 @@ public class PartyBoardSpecification {
 
             /* 검색어 있을 때 */
             // 조건 3: party_board_name LIKE '%workshop%'
+            Predicate condition3 = criteriaBuilder.conjunction();
             if (keyword != null && !keyword.isBlank()) {
-                Predicate condition3 = criteriaBuilder.like(root.get("partyBoardName"), "%" + keyword + "%");
-
-                // 최종 조건 조합: (조건 1 OR 조건 2) AND 조건 3
-                return criteriaBuilder.and(
-                        criteriaBuilder.or(condition1, condition2),
-                        condition3
-                );
-            }else {
-                // 최종 조건 조합: 조건 1 OR 조건 2
-                return criteriaBuilder.or(condition1, condition2);
+                condition3 = criteriaBuilder.like(root.get("partyBoardName"), "%" + keyword + "%");
             }
+
+            /* 관심사 해당 모임만 출력 시 */
+            // 조건 4: hobby_number in :hobbyList
+            Predicate condition4 = criteriaBuilder.conjunction();
+            if(hobbyList != null) {
+                condition4 = criteriaBuilder.in(root.get("hobby")).value(hobbyList);
+            }
+
+            // 최종 조건 조합: (조건 1 OR 조건 2) AND 조건 3 AND 조건 4
+            return criteriaBuilder.and(
+                    criteriaBuilder.or(condition1, condition2)
+                    , condition3
+                    , condition4
+            );
         };
     }
 }

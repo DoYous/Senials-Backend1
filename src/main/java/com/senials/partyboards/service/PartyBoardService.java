@@ -37,6 +37,8 @@ public class PartyBoardService {
 
     private final HobbyRepository hobbyRepository;
 
+    private final FavoritesRepository favoritesRepository;
+
 
     @Autowired
     public PartyBoardService(
@@ -46,6 +48,7 @@ public class PartyBoardService {
             , PartyMemberRepository partyMemberRepository
             , UserRepository userRepository
             , HobbyRepository hobbyRepository
+            , FavoritesRepository favoritesRepository
     ) {
         this.userMapper = userMapper;
         this.partyBoardMapper = partyBoardMapperImpl;
@@ -53,11 +56,12 @@ public class PartyBoardService {
         this.partyMemberRepository = partyMemberRepository;
         this.userRepository = userRepository;
         this.hobbyRepository = hobbyRepository;
+        this.favoritesRepository = favoritesRepository;
     }
 
 
     /* 모임 검색 및 정렬 */
-    public List<PartyBoardDTOForDetail> searchPartyBoard(String sortMethod, String keyword, Integer cursor, int size) {
+    public List<PartyBoardDTOForDetail> searchPartyBoard(String sortMethod, String keyword, Integer cursor, int size, boolean isLikedOnly) {
 
         Sort.Order numberAsc = Sort.Order.asc("partyBoardNumber");
         Sort.Order numberDesc = Sort.Order.desc("partyBoardNumber");
@@ -72,7 +76,7 @@ public class PartyBoardService {
             case "lastest":
                 sortColumn = "partyBoardOpenDate";
                 pageable = PageRequest.of(0, size
-                        , Sort.by(Sort.Order.asc(sortColumn), numberDesc));
+                        , Sort.by(Sort.Order.desc(sortColumn), numberDesc));
                 isIntegerSort = false;
                 break;
 
@@ -89,33 +93,52 @@ public class PartyBoardService {
             case "mostLiked":
                 sortColumn = "partyBoardLikeCnt";
                 pageable = PageRequest.of(0, size
-                        , Sort.by(Sort.Order.asc(sortColumn), numberAsc));
+                        , Sort.by(Sort.Order.desc(sortColumn), numberDesc));
                 break;
 
             /* 조회수순 */
             case "mostViewed":
                 sortColumn = "partyBoardViewCnt";
                 pageable = PageRequest.of(0, size
-                        , Sort.by(Sort.Order.asc(sortColumn), numberAsc));
+                        , Sort.by(Sort.Order.desc(sortColumn), numberDesc));
                 break;
             default:
         }
 
-        Page<PartyBoard> partyBoardList = null;
+
+        /* 관심사 기반 추천 확인 */
+        // 관심사 기반 추천 시 최소 빈 리스트 / 미추천 시 null
+        List<Hobby> hobbyList = null;
+        if(isLikedOnly) {
+            /* 유저 number 필요 */ int userNumber = 3;
+            User user = userRepository.findById(userNumber).orElseThrow(IllegalArgumentException::new);
+            List<Favorites> favoritesList = favoritesRepository.findAllByUser(user);
+
+            /* 관심사 존재하는지 체크 */
+            if(!favoritesList.isEmpty()) {
+                hobbyList = favoritesList.stream().map(Favorites::getHobby).toList();
+            } else {
+                hobbyList = new ArrayList<>();
+            }
+        }
 
         /* 첫 페이지 로딩 OR 정렬 변경 직후 */
+        Page<PartyBoard> partyBoardList = null;
         if(cursor == null) {
-            partyBoardList = partyBoardRepository.findAll(PageRequest.of(0, size
-                    , isAscending ? Sort.by(Sort.Order.asc(sortColumn), numberAsc) : Sort.by(Sort.Order.desc(sortColumn), numberDesc)));
+            if(hobbyList == null) {
+                partyBoardList = partyBoardRepository.findAll(pageable);
+            } else {
+                partyBoardList = partyBoardRepository.findAllByHobbyIn(hobbyList, pageable);
+            }
 
         /* 더보기 버튼으로 로드 */
         } else {
             Specification<PartyBoard> spec = null;
 
             if(isIntegerSort) {
-                spec = PartyBoardSpecification.searchLoadInteger(sortColumn, keyword, cursor, isAscending);
+                spec = PartyBoardSpecification.searchLoadInteger(sortColumn, keyword, cursor, isAscending, hobbyList);
             } else {
-                spec = PartyBoardSpecification.searchLoadLocalDate(sortColumn, keyword, cursor, isAscending);
+                spec = PartyBoardSpecification.searchLoadLocalDate(sortColumn, keyword, cursor, isAscending, hobbyList);
             }
 
             partyBoardList = partyBoardRepository.findAll(spec, pageable);

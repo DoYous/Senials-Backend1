@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -53,20 +52,26 @@ public class PartyBoardController {
     // 2. keyword : 검색어
     // 3. cursor : 클라이언트가 마지막으로 받은 검색결과 partyBoardNumber (마지막 검색결과 다음 행부터 N개 게시글 Response)
     // 4. size : 한 번에 요청할 데이터 개수 (기본 - 8)
+    // 5. likedOnly : 관심사로 등록한 취미와 일치하는 모임만 필터링
     @GetMapping("/partyboards/search")
     public ResponseEntity<ResponseMessage> searchPartyBoard(
             @RequestParam(required = false, defaultValue = "lastest") String sortMethod
             , @RequestParam(required = false) String keyword
             , @RequestParam(required = false) Integer cursor
             , @RequestParam(required = false, defaultValue = "8") Integer size
+            , @RequestParam(required = false, defaultValue = "false") boolean isLikedOnly
     )
     {
-        List<PartyBoardDTOForDetail> partyBoardDTOList = partyBoardService.searchPartyBoard(sortMethod, keyword, cursor, size);
-        int nextCursor = partyBoardDTOList.get(partyBoardDTOList.size() - 1).getPartyBoardNumber();
+        /* isLikedOnly 유저 세션 검사 필요 */
+
+        List<PartyBoardDTOForDetail> partyBoardDTOList = partyBoardService.searchPartyBoard(sortMethod, keyword, cursor, size, isLikedOnly);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("partyBoards", partyBoardDTOList);
-        responseMap.put("cursor", nextCursor);
+
+        if (!partyBoardDTOList.isEmpty()) {
+            responseMap.put("cursor", partyBoardDTOList.get(partyBoardDTOList.size() - 1).getPartyBoardNumber());
+        }
 
         // ResponseHeader 설정
         HttpHeaders headers = new HttpHeaders();
