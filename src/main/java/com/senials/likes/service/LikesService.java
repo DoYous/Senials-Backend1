@@ -2,6 +2,7 @@ package com.senials.likes.service;
 
 import com.senials.entity.Likes;
 import com.senials.entity.PartyBoard;
+import com.senials.entity.PartyReview;
 import com.senials.entity.User;
 import com.senials.partyboards.dto.PartyBoardDTOForCard;
 import com.senials.partyboards.mapper.PartyBoardMapper;
@@ -18,16 +19,53 @@ public class LikesService {
 
     private final LikesRepository likesRepository;
     private final UserRepository userRepository;
+    private final PartyBoardMapper partyBoardMapper;
 
-    private PartyBoardMapper partyBoardMapper;
-
-    public LikesService(LikesRepository likesRepository, UserRepository userRepository, PartyBoardMapperImpl partyBoardMapperImpl) {
+    public LikesService(LikesRepository likesRepository, UserRepository userRepository, PartyBoardMapperImpl partyBoardMapper) {
         this.likesRepository = likesRepository;
         this.userRepository = userRepository;
-        this.partyBoardMapper = partyBoardMapperImpl;
+        this.partyBoardMapper = partyBoardMapper;
     }
 
     public List<PartyBoardDTOForCard> getLikedPartyBoardsByUserNumber(int userNumber) {
+        User user = userRepository.findById(userNumber)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        List<Likes> likesList = likesRepository.findAllByUser(user);
+
+        return likesList.stream().map(likes -> {
+            PartyBoard partyBoard = likes.getPartyBoard();
+
+            // 별점 평균 계산
+            double averageRating = 0.0;
+            List<PartyReview> reviews = partyBoard.getPartyReviews();
+
+            if (!reviews.isEmpty()) {
+                int totalRating = 0;
+                for (PartyReview review : reviews) {
+                    totalRating += review.getPartyReviewRate();
+                }
+                averageRating = (double) totalRating / reviews.size();
+            }
+
+            // 첫 번째 이미지 가져오기
+            String firstImage = partyBoard.getImages().isEmpty() ? null : partyBoard.getImages().get(0).getPartyBoardImg();
+
+            // DTO 생성
+            return new PartyBoardDTOForCard(
+                    partyBoard.getPartyBoardNumber(),
+                    partyBoard.getPartyBoardName(),
+                    partyBoard.getPartyBoardStatus(),
+                    partyBoard.getPartyMembers().size(), // 참여 인원 수
+                    averageRating,
+                    firstImage
+            );
+        }).collect(Collectors.toList());
+
+    }
+
+
+/*    public List<PartyBoardDTOForCard> getLikedPartyBoardsByUserNumber(int userNumber) {
         User user = userRepository.findById(userNumber)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -37,33 +75,5 @@ public class LikesService {
             return partyBoardMapper.toPartyBoardDTOForCard(likes.getPartyBoard());
         }).toList();
 
-        return partyBoards;
-
-/*
-
- List<Likes> likes = likesRepository.findWithDetailsByUser(user);
-
-        return likes.stream().map(like -> {
-            PartyBoard partyBoard = like.getPartyBoard();
-            long memberCount = partyBoard.getPartyMembers().size(); // 멤버 수 계산
-
-            // PartyBoardDetailsDTO 생성
-            return new PartyBoardDTOForCard(
-                    partyBoard.getPartyBoardNumber(),
-                    partyBoard.getPartyBoardName(),
-                    partyBoard.getPartyBoardStatus(),
-                    memberCount
-            );
-        }).collect(Collectors.toList());
-
-    }
-
-
-    int getCountByUserNumber(int userNumber){
-        User user = UserRepository.findById(userNumber)
-                .orElseThrow(IllegalArgumentException::new);
-        return likesRepository.countByUser(user);
-    }*/
-
-    }
+        return partyBoards;*/
 }

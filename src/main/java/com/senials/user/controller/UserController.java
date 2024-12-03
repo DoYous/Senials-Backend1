@@ -1,6 +1,7 @@
 package com.senials.user.controller;
 
 import com.senials.common.ResponseMessage;
+import com.senials.partyboards.dto.PartyBoardDTOForCard;
 import com.senials.user.dto.UserCommonDTO;
 import com.senials.user.dto.UserDTO;
 import com.senials.user.service.UserService;
@@ -123,17 +124,24 @@ public class UserController {
     //사용자 별 자신이 만든 모임 조회
     @GetMapping("/{userNumber}/made")
     public ResponseEntity<ResponseMessage> getUserMadeParties(@PathVariable int userNumber) {
-        Map<String, Object> madePartiesData = userService.getUserMadeParties(userNumber);
+        // UserService에서 리스트로 결과를 가져옴
+        List<PartyBoardDTOForCard> madeParties = userService.getMadePartyBoardsByUserNumber(userNumber);
 
-        // "madeParties" 필드가 비어 있는지 확인
-        if (madePartiesData.isEmpty() || ((List<?>) madePartiesData.get("madeParties")).isEmpty()) {
+        if (madeParties.isEmpty()) {
             return ResponseEntity.status(404)
                     .body(new ResponseMessage(404, "사용자가 만든 모임이 없습니다.", null));
         }
 
+        // 성공적으로 가져온 경우
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("userNumber", userNumber);
+        responseMap.put("madeParties", madeParties);
+
         return ResponseEntity.ok(
-                new ResponseMessage(200, "사용자가 만든 모임 조회 성공", madePartiesData));
+                new ResponseMessage(200, "사용자가 만든 모임 조회 성공", responseMap)
+        );
     }
+
 
 
 

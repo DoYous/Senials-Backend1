@@ -17,11 +17,18 @@ public class LikesController {
         this.likesService = likesService;
     }
 
-    //사용자가 좋아한 모임 목록
+    // 사용자가 좋아한 모임 목록
     @GetMapping("/{userNumber}/likes")
     public ResponseEntity<List<PartyBoardDTOForCard>> getLikedPartyBoards(@PathVariable int userNumber) {
         List<PartyBoardDTOForCard> likedBoards = likesService.getLikedPartyBoardsByUserNumber(userNumber);
         return ResponseEntity.ok(likedBoards);
     }
 
+    //사용자가 좋아한 상태별 모임 목록
+    @GetMapping("/{userNumber}/likes/{partyBoardStatus}")
+    public ResponseEntity<List<PartyBoardDTOForCard>> getLikedPartyBoardsStatus(@PathVariable int userNumber) {
+        List<PartyBoardDTOForCard> likedBoards = likesService.getLikedPartyBoardsByUserNumber(userNumber);
+        return ResponseEntity.ok(likedBoards);
+    }
 }
+

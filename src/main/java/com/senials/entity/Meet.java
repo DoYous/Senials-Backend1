@@ -43,6 +43,7 @@ public class Meet {
     @Column(name = "meet_max_member", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int meetMaxMember;
 
+
     /* AllArgsConstructor */
     public Meet(int meetNumber, PartyBoard partyBoard, LocalDate meetStartDate, LocalDate meetEndDate,
                 LocalTime meetStartTime, LocalTime meetFinishTime, int meetEntryFee, String meetLocation, int meetMaxMember) {

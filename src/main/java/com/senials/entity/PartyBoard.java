@@ -32,8 +32,12 @@ public class PartyBoard {
     @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Meet> meets; // PartyBoard -> Meet 관계 (1:N)
 
-    @OneToMany(mappedBy = "partyBoard", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "partyBoard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("partyBoardImageNumber ASC")
     private List<PartyBoardImage> images;
+
+    @OneToMany(mappedBy = "partyBoard", fetch = FetchType.LAZY)
+    private List<PartyReview> partyReviews;
 
     @OneToMany(mappedBy = "partyBoard")
     private List<PartyMember> partyMembers; // 참여 인원
