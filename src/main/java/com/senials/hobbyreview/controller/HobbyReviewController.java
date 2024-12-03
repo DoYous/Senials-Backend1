@@ -1,10 +1,10 @@
-package com.senials.hobbyboard.controller;
+package com.senials.hobbyreview.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.common.entity.HobbyReview;
+import com.senials.config.GlobalHttpHeadersConfig;
 import com.senials.hobbyboard.dto.HobbyReviewDTO;
-import com.senials.hobbyboard.service.HobbyReviewService;
+import com.senials.hobbyreview.service.HobbyReviewService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
