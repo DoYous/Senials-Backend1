@@ -1,5 +1,6 @@
 package com.senials.partyboards.dto;
 
+import com.senials.partyboardimages.dto.PartyBoardImageDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

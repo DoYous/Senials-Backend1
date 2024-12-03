@@ -2,9 +2,9 @@ package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
 import com.senials.partyboards.dto.*;
-import com.senials.partyboards.service.MeetService;
+import com.senials.meets.service.MeetService;
 import com.senials.partyboards.service.PartyBoardService;
-import com.senials.partyboards.service.PartyReviewService;
+import com.senials.partyreviews.service.PartyReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -90,49 +90,6 @@ public class PartyBoardController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "조회 성공", responseMap));
     }
 
-    /* 모임 멤버 전체 조회 */
-    @GetMapping("/partyboards/{partyBoardNumber}/partymembers")
-    public ResponseEntity<ResponseMessage> getPartyMembers (
-            @PathVariable Integer partyBoardNumber
-    ) {
-        List<UserDTOForPublic> userDTOForPublicList = partyBoardService.getPartyMembers(partyBoardNumber);
-
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("partyMembers", userDTOForPublicList);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 멤버 전체 조회 성공", responseMap));
-    }
-
-    /* 모임 참가 */
-    @PostMapping("/partyboards/{partyBoardNumber}/partymembers")
-    public ResponseEntity<ResponseMessage> registerPartyMember (
-            @PathVariable Integer partyBoardNumber
-    ) {
-        // 유저 번호 임의 지정
-        int userNumber = 2;
-
-        partyBoardService.registerPartyMember(userNumber, partyBoardNumber);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 가입 성공", null));
-    }
-
-    /* 모임 탈퇴 */
-    @DeleteMapping("/partyboards/{partyBoardNumber}/partymembers/{partyMemberNumber}")
-    public ResponseEntity<ResponseMessage> unregisterPartyMember (
-            @PathVariable Integer partyMemberNumber
-    ) {
-
-        partyBoardService.unregisterPartyMember(partyMemberNumber);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 탈퇴 성공", null));
-    }
-
     /* 모임 글 작성 */
     @PostMapping("/partyboards")
     public ResponseEntity<ResponseMessage> registerPartyBoard(
@@ -193,138 +150,6 @@ public class PartyBoardController {
         return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "글 삭제 성공", null));
     }
 
-    /* 모임 내 일정 전체 조회 */
-    @GetMapping("/partyboards/{partyBoardNumber}/meets")
-    public ResponseEntity<ResponseMessage> getMeetsByPartyBoardNumber(
-            @PathVariable Integer partyBoardNumber
-    ) {
-
-        List<MeetDTO> meetDTOList = meetService.getMeetsByPartyBoardNumber(partyBoardNumber);
-        
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("meets", meetDTOList);
-
-        // ResponseHeader 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 전체 조회 완료", responseMap));
-    }
-
-    /* 모임 일정 추가 */
-    @PostMapping("/partyboards/{partyBoardNumber}/meets")
-    public ResponseEntity<ResponseMessage> registerMeet(
-            @PathVariable Integer partyBoardNumber,
-            @RequestBody MeetDTO meetDTO
-    ) {
-        meetService.registerMeet(partyBoardNumber, meetDTO);
-
-        // ResponseHeader 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 추가 완료", null));
-    }
 
 
-    /* 모임 일정 수정 */
-    /* meetNumber 만으로 고유하기 때문에 partyBoardNumber는 필요없음 */
-    @PutMapping("/partyboards/{partyBoardNumber}/meets/{meetNumber}")
-    public ResponseEntity<ResponseMessage> modifyMeet (
-            @PathVariable Integer meetNumber
-            , @RequestBody MeetDTO meetDTO
-    ) {
-        meetService.modifyMeet(meetNumber, meetDTO);
-
-        // ResponseHeader 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 수정 완료", null));
-    }
-
-    /* 모임 일정 삭제 */
-    @DeleteMapping("/partyboards/{partyBoardNumber}/meets/{meetNumber}")
-    public ResponseEntity<ResponseMessage> removeMeet (
-            @PathVariable Integer meetNumber
-    ) {
-        meetService.removeMeet(meetNumber);
-
-        // ResponseHeader 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 삭제 완료", null));
-    }
-
-    /* 모임 일정 참여멤버 조회 */
-    @GetMapping("/partyboards/{partyBoardNumber}/meets/{meetNumber}/meetmembers")
-    public ResponseEntity<ResponseMessage> getMeetMembersByMeetNumber(
-            @PathVariable Integer meetNumber
-    ) {
-        List<UserDTOForPublic> meetMemberList = meetService.getMeetMembersByMeetNumber(meetNumber);
-
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("meetMembers", meetMemberList);
-
-        // ResponseHeader 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "일정 참여멤버 조회 성공", responseMap));
-    }
-
-    /* 모임 후기 전체 조회*/
-    @GetMapping("/partyboards/{partyBoardNumber}/partyreviews")
-    public ResponseEntity<ResponseMessage> getPartyReviewsByPartyBoardNumber(
-            @PathVariable Integer partyBoardNumber
-    ) {
-        List<PartyReviewDTO> partyReviewDTOList = partyReviewService.getPartyReviewsByPartyBoardNumber(partyBoardNumber);
-
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("partyReviews", partyReviewDTOList);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 전체 조회 성공", responseMap));
-    }
-
-    /* 모임 후기 작성 */
-    @PostMapping("/partyboards/{partyBoardNumber}/partyreviews")
-    public ResponseEntity<ResponseMessage> registerPartyReview (
-            @PathVariable Integer partyBoardNumber
-            , @RequestBody PartyReviewDTO partyReviewDTO
-    ) {
-        // 유저 번호 임의 지정
-        int userNumber = 4;
-
-        partyReviewService.registerPartyReview(userNumber, partyBoardNumber, partyReviewDTO);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 작성 성공", null));
-    }
-
-
-    /* 모임 후기 수정 */
-    @PutMapping("/partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}")
-    public ResponseEntity<ResponseMessage> modifyPartyReview (
-            @PathVariable Integer partyReviewNumber
-            , @RequestBody PartyReviewDTO partyReviewDTO
-    ) {
-
-        partyReviewService.modifyPartyReview(partyReviewNumber, partyReviewDTO);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 수정 성공", null));
-    }
-
-    /* 모임 후기 삭제 */
-    @DeleteMapping("/partyboards/{partyBoardNumber}/partyreviews/{partyReviewNumber}")
-    public ResponseEntity<ResponseMessage> removePartyReview (
-            @PathVariable Integer partyReviewNumber
-    ) {
-
-        partyReviewService.removePartyReview(partyReviewNumber);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        return ResponseEntity.ok().headers(headers).body(new ResponseMessage(200, "모임 후기 삭제 성공", null));
-    }
 }

@@ -1,10 +1,10 @@
-package com.senials.partyboards.mapper;
+package com.senials.common.mapper;
 
 import com.senials.common.entity.PartyBoardImage;
 import com.senials.partyboards.dto.PartyBoardDTO;
 import com.senials.common.entity.PartyBoard;
 import com.senials.partyboards.dto.PartyBoardDTOForDetail;
-import com.senials.partyboards.dto.PartyBoardImageDTO;
+import com.senials.partyboardimages.dto.PartyBoardImageDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

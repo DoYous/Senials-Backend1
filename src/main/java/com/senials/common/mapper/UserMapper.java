@@ -1,7 +1,7 @@
-package com.senials.partyboards.mapper;
+package com.senials.common.mapper;
 
 import com.senials.common.entity.User;
-import com.senials.partyboards.dto.UserDTOForPublic;
+import com.senials.user.dto.UserDTOForPublic;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

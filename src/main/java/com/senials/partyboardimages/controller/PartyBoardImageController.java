@@ -1,7 +1,7 @@
 package com.senials.partyboards.controller;
 
 import com.senials.common.ResponseMessage;
-import com.senials.partyboards.dto.FileDTO;
+import com.senials.partyboardimages.dto.FileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -17,12 +17,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
-public class FileUploadController {
+public class PartyBoardImageController {
 
     private final ResourceLoader resourceLoader;
 
     @Autowired
-    public FileUploadController(ResourceLoader resourceLoader) {
+    public PartyBoardImageController(
+            ResourceLoader resourceLoader
+    ) {
         this.resourceLoader = resourceLoader;
     }
 

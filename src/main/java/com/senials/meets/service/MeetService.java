@@ -1,18 +1,15 @@
-package com.senials.partyboards.service;
+package com.senials.meets.service;
 
 import com.senials.common.entity.Meet;
-import com.senials.common.entity.MeetMember;
 import com.senials.common.entity.PartyBoard;
-import com.senials.common.entity.User;
+import com.senials.common.mapper.MeetMapperImpl;
+import com.senials.common.mapper.UserMapperImpl;
 import com.senials.common.repository.MeetMemberRepository;
 import com.senials.common.repository.MeetRepository;
 import com.senials.common.repository.PartyBoardRepository;
-import com.senials.partyboards.dto.MeetDTO;
-import com.senials.partyboards.dto.UserDTOForPublic;
-import com.senials.partyboards.mapper.MeetMapper;
-import com.senials.partyboards.mapper.MeetMapperImpl;
-import com.senials.partyboards.mapper.UserMapper;
-import com.senials.partyboards.mapper.UserMapperImpl;
+import com.senials.meets.dto.MeetDTO;
+import com.senials.common.mapper.MeetMapper;
+import com.senials.common.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,28 +94,6 @@ public class MeetService {
 
         meetRepository.deleteById(meetNumber);
 
-    }
-
-    /* 모임 일정 참여멤버 조회 */
-    public List<UserDTOForPublic> getMeetMembersByMeetNumber(int meetNumber) {
-
-        Meet meet = meetRepository.findById(meetNumber)
-                        .orElseThrow(IllegalArgumentException::new);
-
-        /* 일정 참여 멤버 리스트 도출 */
-        List<MeetMember> meetMemberList = meetMemberRepository.findAllByMeet(meet);
-
-        /* 멤버 리스트 -> 유저 정보 도출 */
-        List<User> userList = meetMemberList.stream()
-                .map(meetMember -> meetMember.getPartyMember().getUser())
-                .toList();
-
-        /* DTO로 변환 */
-        List<UserDTOForPublic> userDTOForPublicList = userList.stream()
-                .map(userMapper::toUserDTOForPublic)
-                .toList();
-
-        return userDTOForPublicList;
     }
 
 }

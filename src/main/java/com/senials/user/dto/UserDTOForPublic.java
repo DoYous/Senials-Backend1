@@ -1,4 +1,4 @@
-package com.senials.partyboards.dto;
+package com.senials.user.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

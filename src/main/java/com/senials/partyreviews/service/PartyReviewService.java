@@ -1,14 +1,14 @@
-package com.senials.partyboards.service;
+package com.senials.partyreviews.service;
 
 import com.senials.common.entity.PartyBoard;
 import com.senials.common.entity.PartyReview;
 import com.senials.common.entity.User;
+import com.senials.common.mapper.PartyReviewMapperImpl;
 import com.senials.common.repository.PartyBoardRepository;
 import com.senials.common.repository.PartyReviewRepository;
 import com.senials.common.repository.UserRepository;
-import com.senials.partyboards.dto.PartyReviewDTO;
-import com.senials.partyboards.mapper.PartyReviewMapper;
-import com.senials.partyboards.mapper.PartyReviewMapperImpl;
+import com.senials.common.mapper.PartyReviewMapper;
+import com.senials.partyreviews.dto.PartyReviewDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

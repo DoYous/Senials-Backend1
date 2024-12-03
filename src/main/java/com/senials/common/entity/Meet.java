@@ -1,6 +1,6 @@
 package com.senials.common.entity;
 
-import com.senials.partyboards.dto.MeetDTO;
+import com.senials.meets.dto.MeetDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
