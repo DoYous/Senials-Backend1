@@ -21,10 +21,10 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###취미 게시판 후기 조회
-GET http://localhost:8081/1/hobby-review/8
+GET http://localhost:8081/1/hobby-review/13
 
 ###취미 게시판 후기 수정
-PUT http://localhost:8081/1/hobby-review/8
+PUT http://localhost:8081/1/hobby-review/13
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -37,7 +37,7 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###취미 게시판 후기 삭제
-DELETE http://localhost:8081/1/hobby-review/8
+DELETE http://localhost:8081/1/hobby-review/13
 
 ###맞춤형 취미 추천 결과 조회
 GET http://localhost:8081/suggest-hobby-result?hobbyAbility=3&hobbyBudget=2&hobbyLevel=2&hobbyTendency=1
