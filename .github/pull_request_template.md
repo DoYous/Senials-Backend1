@@ -1,5 +1,5 @@
 ---
-labels: ["feature"]
+labels: ["⚡feature"]
 ---
 
 ## 이슈
