@@ -1,3 +1,7 @@
+---
+labels: ["feature"]
+---
+
 ## 이슈
 - Resolve #이슈번호
 
